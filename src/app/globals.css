@@ -1,0 +1,240 @@
+@import "tailwindcss";
+
+/* Global Onco Care palette: medical blue #156F9F + lime #8BC34A */
+@theme inline {
+  --color-navy: #156f9f;
+  --color-navy-deep: #0e4560;
+  --color-teal: #8bc34a;
+  --color-teal-dark: #689f38;
+  --color-amber: #8bc34a;
+  --color-soft: #f3f8f1;
+  --color-mist: #e8f3e4;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-soft);
+  color: #3d4f5c;
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+@media (min-width: 768px) {
+  body {
+    font-size: 17px;
+    line-height: 1.65;
+  }
+}
+
+a,
+a *,
+button,
+button *,
+select,
+summary,
+label,
+[role="button"],
+[role="button"] *,
+input[type="submit"],
+input[type="button"] {
+  cursor: pointer !important;
+}
+
+::selection {
+  background: rgba(139, 195, 74, 0.28);
+}
+
+.font-display {
+  font-family: var(--font-display), system-ui, sans-serif;
+}
+
+.dots {
+  background-image: radial-gradient(rgba(14, 69, 96, 0.08) 1.2px, transparent 1.2px);
+  background-size: 22px 22px;
+}
+
+.dots-light {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1.2px, transparent 1.2px);
+  background-size: 24px 24px;
+}
+
+.hl {
+  color: #8bc34a;
+  position: relative;
+  white-space: nowrap;
+}
+
+.hl::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.14em;
+  height: 0.3em;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12' preserveAspectRatio='none'%3E%3Cpath d='M2 9 Q 18 3 36 8 T 70 7 T 118 6' fill='none' stroke='%238BC34A' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E")
+    no-repeat center / contain;
+}
+
+.ecg-run {
+  stroke-dasharray: 180 2800;
+  animation: ecgRun 6s linear infinite;
+}
+
+@keyframes ecgRun {
+  from {
+    stroke-dashoffset: 2980;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.marquee {
+  animation: marquee 36s linear infinite;
+}
+
+.marquee-wrap:hover .marquee {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.floaty {
+  animation: floaty 6s ease-in-out infinite alternate;
+}
+
+@keyframes floaty {
+  from {
+    transform: translateY(-3px) rotate(-4deg);
+  }
+  to {
+    transform: translateY(5px) rotate(-1deg);
+  }
+}
+
+.field {
+  width: 100%;
+  border-radius: 0.75rem;
+  border: 1px solid #d7e3ea;
+  background: #f7fbf6;
+  padding: 0.8rem 1rem;
+  font-size: 0.95rem;
+  color: #0e4560;
+  outline: none;
+  font-family: inherit;
+}
+
+.field:focus {
+  border-color: #8bc34a;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(139, 195, 74, 0.18);
+}
+
+select.field {
+  appearance: none;
+  background-color: #f7fbf6;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23156f9f' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.9rem center;
+  padding-right: 2.6rem;
+  cursor: pointer;
+  accent-color: #156f9f;
+}
+
+select.field option {
+  background: #fff;
+  color: #0e4560;
+}
+
+select.field option:checked,
+select.field option:hover {
+  background: #156f9f;
+  color: #fff;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  background: #156f9f;
+  color: #fff;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 600;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+@media (max-width: 639px) {
+  .btn-primary.hidden {
+    display: none !important;
+  }
+}
+
+.btn-primary:hover {
+  background: #8bc34a;
+  transform: translateY(-2px);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  border: 2px solid rgba(21, 111, 159, 0.18);
+  color: #156f9f;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-ghost:hover {
+  border-color: #8bc34a;
+  color: #689f38;
+  transform: translateY(-2px);
+}
+
+/* Google Translate — custom picker only; clip default UI without display:none so combo still inits */
+#google_translate_element {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.goog-te-banner-frame.skiptranslate,
+.goog-te-gadget-icon,
+body > .skiptranslate {
+  display: none !important;
+}
+
+body {
+  top: 0 !important;
+}
+
+iframe.skiptranslate {
+  visibility: hidden !important;
+  height: 0 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee,
+  .ecg-run,
+  .floaty {
+    animation: none;
+  }
+}
