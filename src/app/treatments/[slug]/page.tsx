@@ -5,7 +5,7 @@ import { TreatmentConsult, TreatmentFaqs } from "@/components/TreatmentConsult";
 import { fetchBlogs, fetchTreatmentPage, fetchTreatmentsNav } from "@/lib/api";
 import { treatments } from "@/lib/data";
 import { getTreatmentPage, treatmentPages } from "@/lib/treatmentPages";
-import { CalendarDays, Clock, IndianRupee, Star, TrendingUp } from "lucide-react";
+import { CalendarDays, Clock, IndianRupee, Sparkles, Star, TrendingUp } from "lucide-react";
 import { pageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -117,6 +117,8 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
         stay: fromApi.stay,
         cost: fromApi.cost,
         success: fromApi.success,
+        extra_stat_label: fromApi.extra_stat_label,
+        extra_stat_value: fromApi.extra_stat_value,
         intro: fromApi.intro,
         sections: fromApi.sections,
         table: fromApi.table ?? undefined,
@@ -142,6 +144,8 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
           stay: fallback.stay,
           cost: fallback.cost,
           success: fallback.success,
+          extra_stat_label: undefined as string | undefined,
+          extra_stat_value: undefined as string | undefined,
           intro: fallback.intro,
           sections: fallback.sections,
           table: fallback.table,
@@ -274,32 +278,47 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
 
           {page ? (
             <>
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-                {page.stay ? (
-                  <div className="rounded-2xl bg-soft p-3 sm:p-4">
-                    <p className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wider text-teal sm:gap-2 sm:text-[11px]">
-                      <Clock className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" /> Stay in India
-                    </p>
-                    <p className="mt-1 font-display text-sm font-bold text-navy sm:text-lg">{page.stay}</p>
-                  </div>
-                ) : null}
-                {page.success ? (
-                  <div className="rounded-2xl bg-soft p-3 sm:p-4">
-                    <p className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wider text-teal sm:gap-2 sm:text-[11px]">
-                      <TrendingUp className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" /> Success rate
-                    </p>
-                    <p className="mt-1 font-display text-sm font-bold text-navy sm:text-lg">{page.success}</p>
-                  </div>
-                ) : null}
-                <div className="col-span-2 rounded-2xl bg-soft p-3 sm:col-span-1 sm:p-4">
-                  <p className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wider text-teal sm:gap-2 sm:text-[11px]">
-                    <IndianRupee className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" /> Cost
-                  </p>
-                  <p className="mt-1 break-words font-display text-sm font-bold leading-snug text-navy sm:text-lg">
-                    {page.cost}
-                  </p>
+              {(page.stay || page.cost || page.success || page.extra_stat_value) ? (
+                <div className="grid grid-cols-2 gap-3">
+                  {page.stay ? (
+                    <div className="rounded-2xl bg-soft p-3 sm:p-4">
+                      <p className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wider text-teal sm:gap-2 sm:text-[11px]">
+                        <Clock className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" /> Stay in India
+                      </p>
+                      <p className="mt-1 font-display text-sm font-bold text-navy sm:text-lg">{page.stay}</p>
+                    </div>
+                  ) : null}
+                  {page.success ? (
+                    <div className="rounded-2xl bg-soft p-3 sm:p-4">
+                      <p className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wider text-teal sm:gap-2 sm:text-[11px]">
+                        <TrendingUp className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" /> Success rate
+                      </p>
+                      <p className="mt-1 font-display text-sm font-bold text-navy sm:text-lg">{page.success}</p>
+                    </div>
+                  ) : null}
+                  {page.cost ? (
+                    <div className="rounded-2xl bg-soft p-3 sm:p-4">
+                      <p className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wider text-teal sm:gap-2 sm:text-[11px]">
+                        <IndianRupee className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" /> Cost
+                      </p>
+                      <p className="mt-1 break-words font-display text-sm font-bold leading-snug text-navy sm:text-lg">
+                        {page.cost}
+                      </p>
+                    </div>
+                  ) : null}
+                  {page.extra_stat_value ? (
+                    <div className="rounded-2xl bg-soft p-3 sm:p-4">
+                      <p className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wider text-teal sm:gap-2 sm:text-[11px]">
+                        <Sparkles className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" />{" "}
+                        {page.extra_stat_label || "Highlight"}
+                      </p>
+                      <p className="mt-1 break-words font-display text-sm font-bold leading-snug text-navy sm:text-lg">
+                        {page.extra_stat_value}
+                      </p>
+                    </div>
+                  ) : null}
                 </div>
-              </div>
+              ) : null}
 
               {/* 1. Intro */}
               {page.intro.map((p, i) =>
