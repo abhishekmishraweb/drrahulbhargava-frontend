@@ -1456,12 +1456,17 @@ export type HomeFeaturedBlog = {
 export type BlogFaq = { q: string; a: string };
 
 export type BlogDetail = BlogListItem & {
+  short_content: string;
   content: string;
+  cta_social: string;
   optional_content_1: string;
+  cta_1: string;
   optional_content_2: string;
+  cta_2: string;
   optional_content_3: string;
   faqs_heading: string;
   faqs: BlogFaq[];
+  related_treatments: string[];
   meta_title: string;
   meta_description: string;
   meta_keywords: string;
@@ -1558,14 +1563,23 @@ export async function fetchBlog(slug: string): Promise<BlogDetail | null> {
           .filter((f) => f.q || f.a)
       : [];
 
+    const related = Array.isArray(data.related_treatments)
+      ? data.related_treatments.map((s) => String(s ?? "").trim()).filter(Boolean)
+      : [];
+
     return {
       ...base,
+      short_content: String(data.short_content ?? "").trim(),
       content: String(data.content ?? "").trim(),
+      cta_social: String(data.cta_social ?? "").trim(),
       optional_content_1: String(data.optional_content_1 ?? "").trim(),
+      cta_1: String(data.cta_1 ?? "").trim(),
       optional_content_2: String(data.optional_content_2 ?? "").trim(),
+      cta_2: String(data.cta_2 ?? "").trim(),
       optional_content_3: String(data.optional_content_3 ?? "").trim(),
       faqs_heading: String(data.faqs_heading ?? "Frequently asked questions").trim() || "Frequently asked questions",
       faqs,
+      related_treatments: related,
       meta_title: String(data.meta_title ?? "").trim(),
       meta_description: String(data.meta_description ?? data.excerpt ?? "").trim(),
       meta_keywords: String(data.meta_keywords ?? "").trim(),
