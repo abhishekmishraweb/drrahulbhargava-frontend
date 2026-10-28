@@ -891,6 +891,25 @@ export type TreatmentSection = {
   groups?: TreatmentSectionGroup[];
 };
 
+export type TreatmentVideo = {
+  video_id: string;
+  title: string;
+  meta: string;
+};
+
+export type TreatmentGalleryItem = {
+  image: string;
+  title: string;
+  link?: string;
+};
+
+export type TreatmentReview = {
+  author: string;
+  rating: number;
+  text: string;
+  date: string;
+};
+
 export type TreatmentPageContent = {
   slug: string;
   navTitle: string;
@@ -902,6 +921,18 @@ export type TreatmentPageContent = {
   sections: TreatmentSection[];
   table?: { caption: string; headers: string[]; rows: string[][] } | null;
   faqs: Array<{ q: string; a: string }>;
+  videos_heading?: string;
+  videos_intro?: string;
+  videos: TreatmentVideo[];
+  section_cta?: string;
+  gallery_heading?: string;
+  media_gallery: TreatmentGalleryItem[];
+  google_reviews_heading?: string;
+  google_reviews: TreatmentReview[];
+  related_heading?: string;
+  related_blogs: string[];
+  published_at?: string;
+  content_updated_at?: string;
   image: string;
   meta_title?: string;
   meta_description?: string;
@@ -996,6 +1027,44 @@ export async function fetchTreatmentPage(slug: string): Promise<TreatmentPageCon
           .filter((f) => f.q || f.a)
       : [];
 
+    const videos = Array.isArray(data.videos)
+      ? data.videos
+          .filter((v): v is Record<string, unknown> => !!v && typeof v === "object")
+          .map((v) => ({
+            video_id: String(v.video_id ?? v.id ?? "").trim(),
+            title: String(v.title ?? "").trim(),
+            meta: String(v.meta ?? "").trim(),
+          }))
+          .filter((v) => v.video_id)
+      : [];
+
+    const media_gallery = Array.isArray(data.media_gallery)
+      ? data.media_gallery
+          .filter((g): g is Record<string, unknown> => !!g && typeof g === "object")
+          .map((g) => ({
+            image: String(g.image ?? "").trim(),
+            title: String(g.title ?? "").trim(),
+            link: String(g.link ?? "").trim() || undefined,
+          }))
+          .filter((g) => g.image)
+      : [];
+
+    const google_reviews = Array.isArray(data.google_reviews)
+      ? data.google_reviews
+          .filter((r): r is Record<string, unknown> => !!r && typeof r === "object")
+          .map((r) => ({
+            author: String(r.author ?? r.name ?? "").trim(),
+            rating: Number(r.rating ?? 5) || 5,
+            text: String(r.text ?? r.review ?? "").trim(),
+            date: String(r.date ?? "").trim(),
+          }))
+          .filter((r) => r.author || r.text)
+      : [];
+
+    const related_blogs = Array.isArray(data.related_blogs)
+      ? data.related_blogs.map((s) => String(s).trim()).filter(Boolean)
+      : [];
+
     const pageSlug = String(data.slug ?? slug).trim() || slug;
     const image = String(data.image ?? "").trim() || `/images/treatments/${pageSlug}.png`;
 
@@ -1010,6 +1079,18 @@ export async function fetchTreatmentPage(slug: string): Promise<TreatmentPageCon
       sections,
       table,
       faqs,
+      videos_heading: String(data.videos_heading ?? "").trim() || undefined,
+      videos_intro: String(data.videos_intro ?? "").trim() || undefined,
+      videos,
+      section_cta: String(data.section_cta ?? "").trim() || undefined,
+      gallery_heading: String(data.gallery_heading ?? "").trim() || undefined,
+      media_gallery,
+      google_reviews_heading: String(data.google_reviews_heading ?? "").trim() || undefined,
+      google_reviews,
+      related_heading: String(data.related_heading ?? "").trim() || undefined,
+      related_blogs,
+      published_at: String(data.published_at ?? "").trim() || undefined,
+      content_updated_at: String(data.content_updated_at ?? "").trim() || undefined,
       image,
       meta_title: String(data.meta_title ?? "").trim() || undefined,
       meta_description: String(data.meta_description ?? "").trim() || undefined,
