@@ -915,8 +915,11 @@ export type TreatmentPageContent = {
   navTitle: string;
   pageTitle: string;
   stay?: string;
+  stay_label?: string;
   cost?: string;
+  cost_stat_label?: string;
   success?: string;
+  success_label?: string;
   extra_stat_label?: string;
   extra_stat_value?: string;
   intro: string[];
@@ -1075,8 +1078,11 @@ export async function fetchTreatmentPage(slug: string): Promise<TreatmentPageCon
       navTitle: String(data.title ?? data.navTitle ?? "").trim() || pageSlug,
       pageTitle: String(data.page_title ?? data.pageTitle ?? "").trim() || pageSlug,
       stay: String(data.stay ?? "").trim() || undefined,
+      stay_label: String(data.stay_label ?? "").trim() || undefined,
       cost: String(data.cost ?? data.cost_label ?? "").trim() || undefined,
+      cost_stat_label: String(data.cost_stat_label ?? "").trim() || undefined,
       success: String(data.success ?? data.success_rate ?? "").trim() || undefined,
+      success_label: String(data.success_label ?? "").trim() || undefined,
       extra_stat_label: String(data.extra_stat_label ?? "").trim() || undefined,
       extra_stat_value: String(data.extra_stat_value ?? "").trim() || undefined,
       intro: Array.isArray(data.intro) ? data.intro.map((p) => String(p).trim()).filter(Boolean) : [],

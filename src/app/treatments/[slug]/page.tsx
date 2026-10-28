@@ -115,8 +115,11 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
         navTitle: fromApi.navTitle,
         pageTitle: fromApi.pageTitle,
         stay: fromApi.stay,
+        stay_label: fromApi.stay_label,
         cost: fromApi.cost,
+        cost_stat_label: fromApi.cost_stat_label,
         success: fromApi.success,
+        success_label: fromApi.success_label,
         extra_stat_label: fromApi.extra_stat_label,
         extra_stat_value: fromApi.extra_stat_value,
         intro: fromApi.intro,
@@ -142,8 +145,11 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
           navTitle: fallback.navTitle,
           pageTitle: fallback.pageTitle,
           stay: fallback.stay,
+          stay_label: undefined as string | undefined,
           cost: fallback.cost,
+          cost_stat_label: undefined as string | undefined,
           success: fallback.success,
+          success_label: undefined as string | undefined,
           extra_stat_label: undefined as string | undefined,
           extra_stat_value: undefined as string | undefined,
           intro: fallback.intro,
@@ -283,7 +289,8 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
                   {page.stay ? (
                     <div className="rounded-2xl bg-soft p-3 sm:p-4">
                       <p className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wider text-teal sm:gap-2 sm:text-[11px]">
-                        <Clock className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" /> Stay in India
+                        <Clock className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" />{" "}
+                        {page.stay_label || "Stay in India"}
                       </p>
                       <p className="mt-1 font-display text-sm font-bold text-navy sm:text-lg">{page.stay}</p>
                     </div>
@@ -291,7 +298,8 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
                   {page.success ? (
                     <div className="rounded-2xl bg-soft p-3 sm:p-4">
                       <p className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wider text-teal sm:gap-2 sm:text-[11px]">
-                        <TrendingUp className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" /> Success rate
+                        <TrendingUp className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" />{" "}
+                        {page.success_label || "Success rate"}
                       </p>
                       <p className="mt-1 font-display text-sm font-bold text-navy sm:text-lg">{page.success}</p>
                     </div>
@@ -299,7 +307,8 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
                   {page.cost ? (
                     <div className="rounded-2xl bg-soft p-3 sm:p-4">
                       <p className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wider text-teal sm:gap-2 sm:text-[11px]">
-                        <IndianRupee className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" /> Cost
+                        <IndianRupee className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" />{" "}
+                        {page.cost_stat_label || "Cost"}
                       </p>
                       <p className="mt-1 break-words font-display text-sm font-bold leading-snug text-navy sm:text-lg">
                         {page.cost}
