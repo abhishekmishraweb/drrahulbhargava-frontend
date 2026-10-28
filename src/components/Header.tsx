@@ -163,12 +163,6 @@ export function Header({ settings }: { settings?: SiteSettings | null }) {
                 </div>
               </div>
             </div>
-            <Link href="/#journey" className="whitespace-nowrap text-[16px] font-semibold tracking-wide text-navy-deep hover:text-teal">
-              BMT Journey
-            </Link>
-            <Link href="/#second-opinion" className="whitespace-nowrap text-[16px] font-semibold tracking-wide text-navy-deep hover:text-teal">
-              Second Opinion
-            </Link>
             <Link href="/blogs" className={`whitespace-nowrap text-[16px] font-semibold tracking-wide ${path.startsWith("/blogs") ? "text-teal" : "text-navy-deep hover:text-teal"}`}>
               Blogs
             </Link>
@@ -268,8 +262,6 @@ export function Header({ settings }: { settings?: SiteSettings | null }) {
                 ))
               : null}
             {[
-              ["/#journey", "BMT Journey"],
-              ["/#second-opinion", "Second Opinion"],
               ["/contact", "Contact"],
             ].map(([href, label]) => (
               <Link
