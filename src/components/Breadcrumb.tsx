@@ -57,11 +57,7 @@ export function PageHero({
       <div className="pointer-events-none absolute -bottom-20 left-10 h-48 w-48 rounded-full bg-navy/10 blur-3xl" />
       <div className="relative mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-5 lg:px-8">
         <Breadcrumb items={items} />
-        {title ? (
-          <h1 className="mt-3 max-w-4xl font-display text-[1.45rem] font-extrabold leading-snug text-navy sm:text-4xl lg:text-[2.4rem]">
-            {title}
-          </h1>
-        ) : null}
+        {title ? <h1 className="sr-only">{title}</h1> : null}
         {subtitle ? <p className="mt-1.5 max-w-2xl text-sm leading-snug text-slate-500 sm:text-base">{subtitle}</p> : null}
       </div>
     </div>
