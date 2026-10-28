@@ -4,7 +4,7 @@ import { PageHero } from "@/components/Breadcrumb";
 import { PhoneField } from "@/components/PhoneField";
 import { phoneFromForm, submitEnquiry, type ContactPageContent } from "@/lib/api";
 import { site } from "@/lib/data";
-import { CheckCircle2, Clock, Mail, MapPin, Phone, Plane, Send } from "lucide-react";
+import { CheckCircle2, Clock, Mail, MapPin, Phone, Plane, Send, UploadCloud } from "lucide-react";
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 
@@ -27,16 +27,26 @@ export function ContactPageClient({ content }: { content: ContactPageContent }) 
     const form = e.currentTarget;
     const fd = new FormData(form);
     const subject = String(fd.get("subject") || "").trim();
+    const note = String(fd.get("message") || "").trim();
+    const fileInput = form.querySelector<HTMLInputElement>('input[type="file"]');
+    const fileCount = fileInput?.files?.length ?? 0;
     const result = await submitEnquiry({
       type: "contact",
       name: String(fd.get("name") || "").trim(),
       email: String(fd.get("email") || "").trim(),
       phone: phoneFromForm(form),
       subject: subject || "Contact form",
-      message: String(fd.get("message") || "").trim(),
+      message: [
+        note,
+        fileCount > 0
+          ? `(Patient indicated ${fileCount} report file(s) — please follow up to collect reports.)`
+          : "",
+      ]
+        .filter(Boolean)
+        .join("\n"),
       product_name: subject || undefined,
       source_page: "/contact",
-      meta: { form: "contact_page" },
+      meta: { form: "contact_page", report_files_noted: fileCount },
     });
     setPending(false);
     if (!result.ok) {
@@ -176,6 +186,20 @@ export function ContactPageClient({ content }: { content: ContactPageContent }) 
                     placeholder="Your message / brief history"
                     className="field resize-none"
                   />
+                  <label className="flex cursor-pointer flex-col items-center rounded-xl border-2 border-dashed border-slate-300 bg-soft/50 px-4 py-7 text-center hover:border-teal">
+                    <UploadCloud className="mb-2 h-8 w-8 text-teal" />
+                    <span className="text-sm">
+                      Drag & drop reports, or <span className="font-bold text-teal underline">browse files</span>
+                    </span>
+                    <span className="mt-1 text-[11px] text-slate-400">PDF, JPG · max 10 MB · up to 6 files</span>
+                    <input
+                      type="file"
+                      name="reports"
+                      className="hidden"
+                      multiple
+                      accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"
+                    />
+                  </label>
                   {error ? <p className="text-sm text-red-600">{error}</p> : null}
                   <button type="submit" disabled={pending} className="btn-primary w-full py-3.5 text-sm disabled:opacity-60">
                     <Send className="h-4 w-4" /> {pending ? "Sending…" : content.form_btn_text}

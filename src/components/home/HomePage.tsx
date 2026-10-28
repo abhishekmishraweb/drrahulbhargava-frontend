@@ -1069,16 +1069,13 @@ export function HomePage({
                   <input required name="name" placeholder="Full name" className="field" />
                   <PhoneField placeholder="Phone" />
                 </div>
-                <select name="diagnosis" className="field" defaultValue="" required>
-                  <option value="" disabled>
-                    Current diagnosis
-                  </option>
-                  {treatments.map((t) => (
-                    <option key={t.slug} value={t.title}>
-                      {t.title}
-                    </option>
-                  ))}
-                </select>
+                <input
+                  required
+                  name="diagnosis"
+                  placeholder="Current diagnosis"
+                  className="field"
+                  autoComplete="off"
+                />
                 <textarea
                   name="message"
                   rows={3}
