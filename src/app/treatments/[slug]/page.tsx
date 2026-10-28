@@ -263,9 +263,10 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
   return (
     <>
       <JsonLd json={fromApi?.schema_json} />
-      <PageHero title={title} items={crumbs} />
+      <PageHero items={crumbs} />
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-12">
         <div className="mx-auto max-w-3xl">
+          <h1 className="sr-only">{title}</h1>
           <div className="mb-6 overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-100 sm:rounded-3xl">
             <Image
               src={banner}
