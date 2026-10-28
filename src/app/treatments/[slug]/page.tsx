@@ -1,4 +1,5 @@
 import { PageHero } from "@/components/Breadcrumb";
+import { ContentCta } from "@/components/ContentCta";
 import { JsonLd } from "@/components/JsonLd";
 import { TreatmentConsult, TreatmentFaqs } from "@/components/TreatmentConsult";
 import { fetchBlogs, fetchTreatmentPage, fetchTreatmentsNav } from "@/lib/api";
@@ -23,16 +24,7 @@ function HtmlBlock({ html, className = "" }: { html?: string; className?: string
 }
 
 function CtaBlock({ html }: { html?: string }) {
-  const value = (html || "").trim();
-  if (!value) return null;
-  return (
-    <aside className="mt-8 rounded-3xl border border-teal/25 bg-gradient-to-br from-teal/10 via-white to-navy/5 p-5 sm:p-7">
-      <HtmlBlock
-        html={value}
-        className="[&_a]:inline-flex [&_a]:items-center [&_a]:gap-2 [&_a]:rounded-full [&_a]:bg-teal [&_a]:px-5 [&_a]:py-2.5 [&_a]:font-bold [&_a]:text-white [&_a]:no-underline hover:[&_a]:bg-teal-dark [&_p]:mt-2"
-      />
-    </aside>
-  );
+  return <ContentCta html={html} className="mt-8" />;
 }
 
 function formatPageDate(value?: string) {

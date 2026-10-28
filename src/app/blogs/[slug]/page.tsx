@@ -1,5 +1,6 @@
 import { PageHero } from "@/components/Breadcrumb";
 import { BlogContactForm } from "@/components/BlogContactForm";
+import { ContentCta } from "@/components/ContentCta";
 import { JsonLd } from "@/components/JsonLd";
 import { TreatmentFaqs } from "@/components/TreatmentConsult";
 import { blogs } from "@/lib/data";
@@ -23,12 +24,7 @@ function HtmlBlock({ html, className = "" }: { html: string; className?: string 
 }
 
 function CtaBlock({ html }: { html: string }) {
-  if (!html.trim()) return null;
-  return (
-    <aside className="rounded-3xl border border-teal/25 bg-gradient-to-br from-teal/10 via-white to-navy/5 p-5 sm:p-7">
-      <HtmlBlock html={html} className="[&_a]:inline-flex [&_a]:items-center [&_a]:gap-2 [&_a]:rounded-full [&_a]:bg-teal [&_a]:px-5 [&_a]:py-2.5 [&_a]:font-bold [&_a]:text-white [&_a]:no-underline hover:[&_a]:bg-teal-dark [&_p]:mt-2" />
-    </aside>
-  );
+  return <ContentCta html={html} />;
 }
 
 export async function generateStaticParams() {
