@@ -310,7 +310,7 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
                     <div className="rounded-2xl bg-soft p-3 sm:p-4">
                       <p className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wider text-teal sm:gap-2 sm:text-[11px]">
                         <Sparkles className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" />{" "}
-                        {page.extra_stat_label || "Highlight"}
+                        {page.extra_stat_label || "Experience"}
                       </p>
                       <p className="mt-1 break-words font-display text-sm font-bold leading-snug text-navy sm:text-lg">
                         {page.extra_stat_value}
