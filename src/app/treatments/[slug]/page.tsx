@@ -2,6 +2,7 @@ import { PageHero } from "@/components/Breadcrumb";
 import { ContentCta } from "@/components/ContentCta";
 import { JsonLd } from "@/components/JsonLd";
 import { TreatmentConsult, TreatmentFaqs } from "@/components/TreatmentConsult";
+import { BlogsCarousel } from "@/components/BlogsCarousel";
 import { ReviewsCarousel } from "@/components/ReviewsCarousel";
 import { VideoCarousel } from "@/components/VideoCarousel";
 import { fetchBlogs, fetchTreatmentPage, fetchTreatmentsNav } from "@/lib/api";
@@ -11,7 +12,6 @@ import { CalendarDays, Clock, IndianRupee, Sparkles, TrendingUp } from "lucide-r
 import { pageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
 export const instant = false;
@@ -422,22 +422,14 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
               ) : null}
 
               {relatedBlogs.length > 0 ? (
-                <section className="mt-12">
-                  <h2 className="mb-4 font-display text-xl font-extrabold text-navy sm:text-2xl">
-                    {page.related_heading || "Related Blogs"}
-                  </h2>
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    {relatedBlogs.map((blog) => (
-                      <Link
-                        key={blog.slug}
-                        href={`/blogs/${blog.slug}`}
-                        className="rounded-2xl border border-slate-200 bg-white px-5 py-4 font-display text-base font-bold text-navy shadow-sm transition hover:border-teal/40 hover:text-teal"
-                      >
-                        {blog.title}
-                      </Link>
-                    ))}
-                  </div>
-                </section>
+                <BlogsCarousel
+                  title={page.related_heading || "Related Blogs"}
+                  blogs={relatedBlogs.map((b) => ({
+                    slug: b.slug,
+                    title: b.title,
+                    image: b.image,
+                  }))}
+                />
               ) : null}
             </>
           ) : (
