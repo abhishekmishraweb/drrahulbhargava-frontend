@@ -52,6 +52,41 @@ input[type="button"] {
   font-family: var(--font-display), system-ui, sans-serif;
 }
 
+/* Content lists: indent bullets inward (not flush with paragraph edge) */
+.prose-blog ul,
+.prose-treatment ul,
+.prose-blog ol,
+.prose-treatment ol {
+  list-style-position: outside;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding-left: 1.75rem !important;
+  margin-left: 0.75rem;
+}
+
+.prose-blog ul,
+.prose-treatment ul {
+  list-style-type: disc;
+}
+
+.prose-blog ol,
+.prose-treatment ol {
+  list-style-type: decimal;
+}
+
+.prose-blog li,
+.prose-treatment li {
+  margin-top: 0.35rem;
+  padding-left: 0.25rem;
+}
+
+.prose-blog ul ul,
+.prose-treatment ul ul {
+  margin-top: 0.35rem;
+  margin-bottom: 0.35rem;
+  margin-left: 0.25rem;
+}
+
 .dots {
   background-image: radial-gradient(rgba(14, 69, 96, 0.08) 1.2px, transparent 1.2px);
   background-size: 22px 22px;
