@@ -2,15 +2,27 @@ type LogoProps = {
   light?: boolean;
   name?: string;
   tagline?: string;
+  taglineLine2?: string;
   imageUrl?: string;
 };
+
+function cleanTagline(value?: string) {
+  return String(value ?? "")
+    .replace(/<\s*br\s*\/?\s*>/gi, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
 
 export function Logo({
   light = false,
   name = "Dr. Rahul Bhargava",
   tagline = "Hematology · BMT",
+  taglineLine2 = "",
   imageUrl = "/images/dr_rahul.jpg",
 }: LogoProps) {
+  const line1 = cleanTagline(tagline) || "Hematology · BMT";
+  const line2 = cleanTagline(taglineLine2);
+
   return (
     <span className="flex min-w-0 items-center gap-2 sm:gap-3">
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -28,11 +40,12 @@ export function Logo({
           {name}
         </span>
         <span
-          className={`block text-[9px] font-bold uppercase tracking-[0.14em] sm:text-[11px] sm:tracking-[0.18em] ${
+          className={`block text-[9px] font-bold uppercase leading-snug tracking-[0.14em] sm:text-[11px] sm:tracking-[0.18em] ${
             light ? "text-white/70" : "text-teal"
           }`}
         >
-          {tagline}
+          <span className="block">{line1}</span>
+          {line2 ? <span className="block">{line2}</span> : null}
         </span>
       </span>
     </span>

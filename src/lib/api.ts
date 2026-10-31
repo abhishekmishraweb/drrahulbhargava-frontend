@@ -1688,6 +1688,7 @@ export type SiteSocialLink = { name: string; href: string };
 export type SiteSettings = {
   site_name: string;
   logo_tagline: string;
+  logo_tagline_line2: string;
   header_logo: string;
   footer_logo: string;
   favicon: string;
@@ -1744,6 +1745,7 @@ export async function fetchSiteSettings(): Promise<SiteSettings | null> {
     return {
       site_name: String(data.site_name ?? "Dr. Rahul Bhargava").trim() || "Dr. Rahul Bhargava",
       logo_tagline: String(data.logo_tagline ?? "Hematology · BMT").trim() || "Hematology · BMT",
+      logo_tagline_line2: String(data.logo_tagline_line2 ?? "").trim(),
       header_logo: String(data.header_logo ?? "").trim(),
       footer_logo: String(data.footer_logo ?? "").trim(),
       favicon: String(data.favicon ?? "").trim(),

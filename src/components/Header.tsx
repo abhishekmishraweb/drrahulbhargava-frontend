@@ -29,6 +29,7 @@ export function Header({ settings }: { settings?: SiteSettings | null }) {
   const ctaText = settings?.header_cta_text || "Get free medical consultation";
   const siteName = settings?.site_name || site.name;
   const logoTagline = settings?.logo_tagline || "Hematology · BMT";
+  const logoTaglineLine2 = settings?.logo_tagline_line2 || "";
   const headerLogo = settings?.header_logo || "";
 
 
@@ -121,7 +122,12 @@ export function Header({ settings }: { settings?: SiteSettings | null }) {
       <header className="sticky top-0 z-[80] border-b border-slate-200/70 bg-white shadow-sm">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-3 sm:h-[82px] sm:px-6 lg:grid lg:h-[90px] lg:grid-cols-[auto_1fr_auto] lg:gap-4 lg:px-8">
           <Link href="/" aria-label="Home" className="min-w-0">
-            <Logo name={siteName} tagline={logoTagline} imageUrl={headerLogo || undefined} />
+            <Logo
+              name={siteName}
+              tagline={logoTagline}
+              taglineLine2={logoTaglineLine2}
+              imageUrl={headerLogo || undefined}
+            />
           </Link>
           <nav className="hidden min-w-0 items-center justify-center gap-6 font-display lg:flex xl:gap-8">
             {[

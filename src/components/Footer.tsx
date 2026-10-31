@@ -44,6 +44,7 @@ export async function Footer({ settings }: { settings?: SiteSettings | null }) {
 
   const siteName = settings?.site_name || site.name;
   const logoTagline = settings?.logo_tagline || "Hematology · BMT";
+  const logoTaglineLine2 = settings?.logo_tagline_line2 || "";
   const about = settings?.footer_about || defaultAbout;
   const copyright =
     settings?.footer_copyright ||
@@ -60,7 +61,13 @@ export async function Footer({ settings }: { settings?: SiteSettings | null }) {
     <footer className="bg-navy-deep text-slate-400">
       <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 md:grid-cols-4 lg:px-8">
         <div className="space-y-4">
-          <Logo light name={siteName} tagline={logoTagline} imageUrl={footerLogo || undefined} />
+          <Logo
+            light
+            name={siteName}
+            tagline={logoTagline}
+            taglineLine2={logoTaglineLine2}
+            imageUrl={footerLogo || undefined}
+          />
           {aboutIsHtml ? (
             <div
               className="text-sm leading-relaxed [&_a]:text-teal [&_p]:mt-0"
