@@ -40,30 +40,23 @@ export function VideoCarousel({
           <h2 className="font-display text-xl font-extrabold text-navy sm:text-2xl">{title}</h2>
           {intro ? <p className="mt-2 text-sm text-slate-600 sm:text-base">{intro}</p> : null}
         </div>
-        <div className="flex shrink-0 items-center gap-3">
-          {btnLink ? (
-            <Link href={btnLink} className="btn-primary hidden px-4 py-2 text-xs sm:inline-flex sm:text-sm">
-              <Quote className="h-4 w-4" /> {btnText} <ArrowRight className="h-4 w-4" />
-            </Link>
-          ) : null}
-          <div className="flex gap-2">
-            <button
-              type="button"
-              aria-label="Previous video"
-              onClick={() => trackRef.current?.scrollBy({ left: -340, behavior: "smooth" })}
-              className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-navy text-white hover:bg-teal"
-            >
-              <ChevronLeft className="h-5 w-5" />
-            </button>
-            <button
-              type="button"
-              aria-label="Next video"
-              onClick={() => trackRef.current?.scrollBy({ left: 340, behavior: "smooth" })}
-              className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-navy text-white hover:bg-teal"
-            >
-              <ChevronRight className="h-5 w-5" />
-            </button>
-          </div>
+        <div className="flex shrink-0 gap-2">
+          <button
+            type="button"
+            aria-label="Previous video"
+            onClick={() => trackRef.current?.scrollBy({ left: -340, behavior: "smooth" })}
+            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-navy text-white hover:bg-teal"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+          <button
+            type="button"
+            aria-label="Next video"
+            onClick={() => trackRef.current?.scrollBy({ left: 340, behavior: "smooth" })}
+            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-navy text-white hover:bg-teal"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
         </div>
       </div>
 
@@ -102,7 +95,7 @@ export function VideoCarousel({
       </div>
 
       {btnLink ? (
-        <Link href={btnLink} className="btn-primary mt-6 inline-flex w-full justify-center px-5 py-2.5 text-sm sm:hidden">
+        <Link href={btnLink} className="btn-primary mt-6 inline-flex w-full justify-center px-5 py-2.5 text-sm sm:w-auto">
           <Quote className="h-4 w-4" /> {btnText} <ArrowRight className="h-4 w-4" />
         </Link>
       ) : null}
