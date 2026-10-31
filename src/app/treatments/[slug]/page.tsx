@@ -371,8 +371,13 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
 
               {page.table ? (
                 <section id="cost-table" className="mt-10 scroll-mt-28">
-                  <h2 className="font-display text-xl font-extrabold text-navy sm:text-2xl">{page.table.caption}</h2>
-                  <div className="mt-4 overflow-x-auto rounded-2xl border border-slate-200">
+                  {page.table.caption ? (
+                    <h2 className="font-display text-xl font-extrabold text-navy sm:text-2xl">{page.table.caption}</h2>
+                  ) : null}
+                  {page.table.intro ? (
+                    <HtmlBlock html={page.table.intro} className="mt-3" />
+                  ) : null}
+                  <div className={`${page.table.caption || page.table.intro ? "mt-4" : ""} overflow-x-auto rounded-2xl border border-slate-200`}>
                     <table className="w-full min-w-[560px] text-left text-sm">
                       <thead className="bg-navy text-white">
                         <tr>

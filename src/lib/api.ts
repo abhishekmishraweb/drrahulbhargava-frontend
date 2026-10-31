@@ -966,7 +966,7 @@ export type TreatmentPageContent = {
   extra_stat_value?: string;
   intro: string[];
   sections: TreatmentSection[];
-  table?: { caption: string; headers: string[]; rows: string[][] } | null;
+  table?: { caption: string; intro?: string; headers: string[]; rows: string[][] } | null;
   faqs: Array<{ q: string; a: string }>;
   videos_heading?: string;
   videos_intro?: string;
@@ -1039,9 +1039,10 @@ export async function fetchTreatmentPage(slug: string): Promise<TreatmentPageCon
             .filter((r): r is unknown[] => Array.isArray(r))
             .map((r) => r.map((c) => String(c)))
         : [];
-      if (headers.length || rows.length) {
+      if (headers.length || rows.length || String(t.caption ?? "").trim() || String(t.intro ?? "").trim()) {
         table = {
           caption: String(t.caption ?? "").trim(),
+          intro: String(t.intro ?? "").trim() || undefined,
           headers,
           rows,
         };
