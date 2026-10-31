@@ -139,8 +139,18 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
           extra_stat_label: undefined as string | undefined,
           extra_stat_value: undefined as string | undefined,
           intro: fallback.intro,
-          sections: fallback.sections,
-          table: fallback.table,
+          sections: fallback.sections.map((s) => ({
+            heading: s.heading,
+            paragraphs: s.paragraphs,
+          })),
+          table: fallback.table
+            ? {
+                caption: fallback.table.caption,
+                intro: undefined as string | undefined,
+                headers: fallback.table.headers,
+                rows: fallback.table.rows,
+              }
+            : null,
           faqs: fallback.faqs,
           image: `/images/treatments/${slug}.png`,
           videos_heading: undefined as string | undefined,
