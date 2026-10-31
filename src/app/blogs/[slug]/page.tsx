@@ -2,6 +2,7 @@ import { PageHero } from "@/components/Breadcrumb";
 import { BlogContactForm } from "@/components/BlogContactForm";
 import { ContentCta } from "@/components/ContentCta";
 import { JsonLd } from "@/components/JsonLd";
+import { TableOfContents } from "@/components/TableOfContents";
 import { TreatmentFaqs } from "@/components/TreatmentConsult";
 import { blogs } from "@/lib/data";
 import { getBlogPage } from "@/lib/blogPages";
@@ -69,10 +70,39 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
       ? navTreatments.filter((t) => relatedSlugs.includes(t.slug))
       : navTreatments.slice(0, 4);
 
+  const blogToc = fromApi
+    ? [
+        ...(fromApi.short_content || fromApi.excerpt
+          ? [{ href: "#intro", label: "Introduction" }]
+          : []),
+        { href: "#contact", label: "Get in touch" },
+        ...(fromApi.content ? [{ href: "#content", label: "Main content" }] : []),
+        ...(fromApi.optional_content_1 ? [{ href: "#box-1", label: "Content box 1" }] : []),
+        ...(fromApi.optional_content_2 ? [{ href: "#box-2", label: "Content box 2" }] : []),
+        ...(fromApi.optional_content_3 ? [{ href: "#box-3", label: "Content box 3" }] : []),
+        ...(fromApi.faqs.length ? [{ href: "#faqs", label: fromApi.faqs_heading || "FAQs" }] : []),
+        ...(related.length ? [{ href: "#related-treatments", label: "Related Treatments" }] : []),
+      ]
+    : fallbackPage
+      ? [
+          { href: "#intro", label: "Introduction" },
+          { href: "#contact", label: "Get in touch" },
+          ...fallbackPage.sections.map((s, i) => ({
+            href: `#section-${i + 1}`,
+            label: s.heading || `Section ${i + 1}`,
+          })),
+          ...(fallbackPage.faqs.length ? [{ href: "#faqs", label: "FAQs" }] : []),
+          ...(related.length ? [{ href: "#related-treatments", label: "Related Treatments" }] : []),
+        ]
+      : related.length
+        ? [{ href: "#related-treatments", label: "Related Treatments" }]
+        : [];
+
   return (
     <>
       <JsonLd json={fromApi?.schema_json} />
       <PageHero title={title} items={[{ href: "/blogs", label: "Blogs" }, { label: title }]} />
+      <TableOfContents items={blogToc} />
 
       <div className="mx-auto max-w-4xl space-y-8 px-4 py-6 sm:space-y-10 sm:px-6 sm:py-8 lg:px-8 lg:py-12">
         <div className="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-100 sm:rounded-3xl">
@@ -100,35 +130,47 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
         {fromApi ? (
           <>
             {/* 1. Short content */}
-            <HtmlBlock html={fromApi.short_content || fromApi.excerpt} />
+            <div id="intro" className="scroll-mt-28">
+              <HtmlBlock html={fromApi.short_content || fromApi.excerpt} />
+            </div>
 
             {/* 2. Contact form */}
-            <BlogContactForm blogSlug={slug} />
+            <div id="contact" className="scroll-mt-28">
+              <BlogContactForm blogSlug={slug} />
+            </div>
 
             {/* 3. Main content */}
-            <HtmlBlock html={fromApi.content} />
+            <div id="content" className="scroll-mt-28">
+              <HtmlBlock html={fromApi.content} />
+            </div>
 
             {/* 4. CTA social */}
             <CtaBlock html={fromApi.cta_social} />
 
             {/* 5. Content Box 1 */}
-            <HtmlBlock html={fromApi.optional_content_1} />
+            <div id="box-1" className="scroll-mt-28">
+              <HtmlBlock html={fromApi.optional_content_1} />
+            </div>
 
             {/* 6. CTA package */}
             <CtaBlock html={fromApi.cta_1} />
 
             {/* 7. Content Box 2 */}
-            <HtmlBlock html={fromApi.optional_content_2} />
+            <div id="box-2" className="scroll-mt-28">
+              <HtmlBlock html={fromApi.optional_content_2} />
+            </div>
 
             {/* 8. CTA */}
             <CtaBlock html={fromApi.cta_2} />
 
             {/* 9. Content Box 3 */}
-            <HtmlBlock html={fromApi.optional_content_3} />
+            <div id="box-3" className="scroll-mt-28">
+              <HtmlBlock html={fromApi.optional_content_3} />
+            </div>
 
             {/* 10. FAQs */}
             {fromApi.faqs.length > 0 ? (
-              <section>
+              <section id="faqs" className="scroll-mt-28">
                 <h2 className="mb-4 font-display text-2xl font-extrabold text-navy">{fromApi.faqs_heading}</h2>
                 <TreatmentFaqs faqs={fromApi.faqs} />
               </section>
@@ -136,17 +178,21 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
           </>
         ) : fallbackPage ? (
           <>
-            {fallbackPage.intro.map((p, i) => (
-              <p key={`intro-${i}`} className="text-[15px] leading-relaxed text-slate-600 md:text-[16px]">
-                {p}
-              </p>
-            ))}
-            <BlogContactForm blogSlug={slug} />
-            {fallbackPage.sections.map((s) => (
-              <section key={s.heading}>
+            <div id="intro" className="scroll-mt-28 space-y-4">
+              {fallbackPage.intro.map((p, i) => (
+                <p key={`intro-${i}`} className="text-[15px] leading-relaxed text-slate-600 md:text-[16px]">
+                  {p}
+                </p>
+              ))}
+            </div>
+            <div id="contact" className="scroll-mt-28">
+              <BlogContactForm blogSlug={slug} />
+            </div>
+            {fallbackPage.sections.map((s, i) => (
+              <section key={s.heading} id={`section-${i + 1}`} className="scroll-mt-28">
                 <h2 className="font-display text-2xl font-extrabold text-navy">{s.heading}</h2>
-                {s.paragraphs?.map((p, i) => (
-                  <p key={`${s.heading}-p-${i}`} className="mt-3 leading-relaxed text-slate-600">
+                {s.paragraphs?.map((p, pi) => (
+                  <p key={`${s.heading}-p-${pi}`} className="mt-3 leading-relaxed text-slate-600">
                     {p}
                   </p>
                 ))}
@@ -159,7 +205,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                 ) : null}
               </section>
             ))}
-            <section>
+            <section id="faqs" className="scroll-mt-28">
               <h2 className="mb-4 font-display text-2xl font-extrabold text-navy">Frequently asked questions</h2>
               <TreatmentFaqs faqs={fallbackPage.faqs} />
             </section>
@@ -167,13 +213,15 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
         ) : (
           <>
             <p className="text-lg text-slate-500">{b!.excerpt}</p>
-            <BlogContactForm blogSlug={slug} />
+            <div id="contact" className="scroll-mt-28">
+              <BlogContactForm blogSlug={slug} />
+            </div>
           </>
         )}
 
         {/* 11. Related Treatments */}
         {related.length > 0 ? (
-          <section>
+          <section id="related-treatments" className="scroll-mt-28">
             <h2 className="mb-4 font-display text-2xl font-extrabold text-navy">Related Treatments</h2>
             <div className="grid gap-3 sm:grid-cols-2">
               {related.map((t) => (

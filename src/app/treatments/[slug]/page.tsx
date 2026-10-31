@@ -4,6 +4,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { TreatmentConsult, TreatmentFaqs } from "@/components/TreatmentConsult";
 import { BlogsCarousel } from "@/components/BlogsCarousel";
 import { ReviewsCarousel } from "@/components/ReviewsCarousel";
+import { slugifyHeading, TableOfContents } from "@/components/TableOfContents";
 import { VideoCarousel } from "@/components/VideoCarousel";
 import { fetchBlogs, fetchTreatmentPage, fetchTreatmentsNav } from "@/lib/api";
 import { treatments } from "@/lib/data";
@@ -38,18 +39,20 @@ function formatPageDate(value?: string) {
 }
 
 function SectionBlock({
+  id,
   heading,
   paragraphs,
   bullets,
   groups,
 }: {
+  id?: string;
   heading: string;
   paragraphs?: string[];
   bullets?: string[];
   groups?: Array<{ title: string; bullets: string[] }>;
 }) {
   return (
-    <section className="mt-10">
+    <section id={id} className="mt-10 scroll-mt-28">
       {heading ? <h2 className="font-display text-xl font-extrabold text-navy sm:text-2xl">{heading}</h2> : null}
       {paragraphs?.map((p, i) =>
         /<\/?[a-z][\s\S]*>/i.test(p) ? (
@@ -188,17 +191,44 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
   const publishedLabel = formatPageDate(page?.published_at);
   const updatedLabel = formatPageDate(page?.content_updated_at);
 
+  const tocItems = page
+    ? [
+        ...(page.intro.length ? [{ href: "#intro", label: "Introduction" }] : []),
+        { href: "#consult", label: "Book consultation" },
+        ...page.sections.map((s, i) => ({
+          href: `#${slugifyHeading(s.heading) || `section-${i + 1}`}`,
+          label: s.heading || `Section ${i + 1}`,
+        })),
+        ...(page.videos.length
+          ? [{ href: "#videos", label: page.videos_heading || "Testimonials" }]
+          : []),
+        ...(page.media_gallery.length
+          ? [{ href: "#gallery", label: page.gallery_heading || "Gallery" }]
+          : []),
+        ...(page.table ? [{ href: "#cost-table", label: page.table.caption || "Cost table" }] : []),
+        ...(page.faqs.length ? [{ href: "#faqs", label: "FAQs" }] : []),
+        ...(page.google_reviews.length
+          ? [{ href: "#reviews", label: page.google_reviews_heading || "Google Reviews" }]
+          : []),
+        ...(relatedBlogs.length
+          ? [{ href: "#related-blogs", label: page.related_heading || "Related Blogs" }]
+          : []),
+      ]
+    : [];
+
   const videosBlock =
     page && (page.videos.length > 0 || page.section_cta) ? (
       <>
         {page.videos.length > 0 ? (
-          <VideoCarousel
-            title={page.videos_heading || "Testimonials"}
-            intro={page.videos_intro}
-            videos={page.videos}
-            btnText="View all testimonials"
-            btnLink="/testimonials"
-          />
+          <div id="videos" className="scroll-mt-28">
+            <VideoCarousel
+              title={page.videos_heading || "Testimonials"}
+              intro={page.videos_intro}
+              videos={page.videos}
+              btnText="View all testimonials"
+              btnLink="/testimonials"
+            />
+          </div>
         ) : null}
         <CtaBlock html={page.section_cta} />
       </>
@@ -206,7 +236,7 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
 
   const galleryBlock =
     page && page.media_gallery.length > 0 ? (
-      <section className="mt-10">
+      <section id="gallery" className="mt-10 scroll-mt-28">
         <h2 className="font-display text-xl font-extrabold text-navy sm:text-2xl">
           {page.gallery_heading || "Hospital, certificates & patients"}
         </h2>
@@ -248,6 +278,7 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
     <>
       <JsonLd json={fromApi?.schema_json} />
       <PageHero items={crumbs} />
+      <TableOfContents items={tocItems} />
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-12">
         <div className="mx-auto max-w-3xl">
           <h1 className="mb-5 font-display text-[1.45rem] font-extrabold leading-snug text-navy sm:mb-6 sm:text-4xl lg:text-[2.4rem]">
@@ -314,22 +345,24 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
               ) : null}
 
               {/* 1. Intro */}
-              {page.intro.map((p, i) =>
-                /<\/?[a-z][\s\S]*>/i.test(p) ? (
-                  <div
-                    key={`intro-${i}`}
-                    className={`${prose} mt-5`}
-                    dangerouslySetInnerHTML={{ __html: p }}
-                  />
-                ) : (
-                  <p key={`intro-${i}`} className="mt-5 text-[15px] leading-relaxed text-slate-600 md:text-[16px]">
-                    {p}
-                  </p>
-                )
-              )}
+              <div id="intro" className="scroll-mt-28">
+                {page.intro.map((p, i) =>
+                  /<\/?[a-z][\s\S]*>/i.test(p) ? (
+                    <div
+                      key={`intro-${i}`}
+                      className={`${prose} mt-5`}
+                      dangerouslySetInnerHTML={{ __html: p }}
+                    />
+                  ) : (
+                    <p key={`intro-${i}`} className="mt-5 text-[15px] leading-relaxed text-slate-600 md:text-[16px]">
+                      {p}
+                    </p>
+                  )
+                )}
+              </div>
 
               {/* Contact form after intro */}
-              <div className="mt-8">
+              <div id="consult" className="mt-8 scroll-mt-28">
                 <TreatmentConsult defaultSlug={slug} />
               </div>
 
@@ -337,6 +370,7 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
               {page.sections.map((s, index) => (
                 <div key={`${s.heading}-${index}`}>
                   <SectionBlock
+                    id={slugifyHeading(s.heading) || `section-${index + 1}`}
                     heading={s.heading}
                     paragraphs={s.paragraphs}
                     bullets={s.bullets}
@@ -355,7 +389,7 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
               {page.sections.length === 1 ? galleryBlock : null}
 
               {page.table ? (
-                <section className="mt-10">
+                <section id="cost-table" className="mt-10 scroll-mt-28">
                   <h2 className="font-display text-xl font-extrabold text-navy sm:text-2xl">{page.table.caption}</h2>
                   <div className="mt-4 overflow-x-auto rounded-2xl border border-slate-200">
                     <table className="w-full min-w-[560px] text-left text-sm">
@@ -385,7 +419,7 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
               ) : null}
 
               {page.faqs.length > 0 ? (
-                <section className="mt-12">
+                <section id="faqs" className="mt-12 scroll-mt-28">
                   <h2 className="mb-4 font-display text-xl font-extrabold text-navy sm:text-2xl">
                     Frequently asked questions
                   </h2>
@@ -415,21 +449,25 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
               )}
 
               {page.google_reviews.length > 0 ? (
-                <ReviewsCarousel
-                  title={page.google_reviews_heading || "Google Reviews"}
-                  reviews={page.google_reviews}
-                />
+                <div id="reviews" className="scroll-mt-28">
+                  <ReviewsCarousel
+                    title={page.google_reviews_heading || "Google Reviews"}
+                    reviews={page.google_reviews}
+                  />
+                </div>
               ) : null}
 
               {relatedBlogs.length > 0 ? (
-                <BlogsCarousel
-                  title={page.related_heading || "Related Blogs"}
-                  blogs={relatedBlogs.map((b) => ({
-                    slug: b.slug,
-                    title: b.title,
-                    image: b.image,
-                  }))}
-                />
+                <div id="related-blogs" className="scroll-mt-28">
+                  <BlogsCarousel
+                    title={page.related_heading || "Related Blogs"}
+                    blogs={relatedBlogs.map((b) => ({
+                      slug: b.slug,
+                      title: b.title,
+                      image: b.image,
+                    }))}
+                  />
+                </div>
               ) : null}
             </>
           ) : (
