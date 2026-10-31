@@ -2,6 +2,7 @@ import { PageHero } from "@/components/Breadcrumb";
 import { ContentCta } from "@/components/ContentCta";
 import { JsonLd } from "@/components/JsonLd";
 import { TreatmentConsult, TreatmentFaqs } from "@/components/TreatmentConsult";
+import { VideoCarousel } from "@/components/VideoCarousel";
 import { fetchBlogs, fetchTreatmentPage, fetchTreatmentsNav } from "@/lib/api";
 import { treatments } from "@/lib/data";
 import { getTreatmentPage, treatmentPages } from "@/lib/treatmentPages";
@@ -190,33 +191,13 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
     page && (page.videos.length > 0 || page.section_cta) ? (
       <>
         {page.videos.length > 0 ? (
-          <section className="mt-10">
-            <h2 className="font-display text-xl font-extrabold text-navy sm:text-2xl">
-              {page.videos_heading || "Doctor videos"}
-            </h2>
-            {page.videos_intro ? <p className="mt-2 text-slate-600">{page.videos_intro}</p> : null}
-            <div className="mt-5 grid gap-4 sm:grid-cols-2">
-              {page.videos.map((video) => (
-                <div key={video.video_id} className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-                  <div className="aspect-video bg-slate-100">
-                    <iframe
-                      src={`https://www.youtube.com/embed/${video.video_id}`}
-                      title={video.title || "Doctor video"}
-                      className="h-full w-full"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
-                  </div>
-                  {(video.title || video.meta) && (
-                    <div className="px-4 py-3">
-                      {video.title ? <p className="font-display font-bold text-navy">{video.title}</p> : null}
-                      {video.meta ? <p className="mt-0.5 text-sm text-slate-500">{video.meta}</p> : null}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
+          <VideoCarousel
+            title={page.videos_heading || "Testimonials"}
+            intro={page.videos_intro}
+            videos={page.videos}
+            btnText="View all testimonials"
+            btnLink="/testimonials"
+          />
         ) : null}
         <CtaBlock html={page.section_cta} />
       </>
