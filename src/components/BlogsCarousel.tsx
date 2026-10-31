@@ -64,7 +64,7 @@ export function BlogsCarousel({ title = "Related Blogs", blogs, className = "" }
                   fill
                   unoptimized
                   sizes="(min-width: 640px) 50vw, 80vw"
-                  className="object-cover transition duration-300 group-hover:scale-[1.03]"
+                  className="object-contain transition duration-300 group-hover:scale-[1.02]"
                 />
               ) : (
                 <div className="flex h-full items-center justify-center bg-navy/5 text-sm font-semibold text-slate-400">
