@@ -15,7 +15,7 @@ import { notFound } from "next/navigation";
 export const instant = false;
 
 const prose =
-  "prose-treatment max-w-none text-[15px] leading-relaxed text-slate-600 md:text-[16px] [&_a]:text-teal [&_p]:mt-0 [&_p+p]:mt-3";
+  "prose-treatment max-w-none text-[15px] leading-relaxed text-slate-600 md:text-[16px] [&_a]:text-teal [&_h2]:mt-8 [&_h2]:font-display [&_h2]:text-xl [&_h2]:font-extrabold [&_h2]:text-navy sm:[&_h2]:text-2xl [&_h3]:mt-6 [&_h3]:font-display [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-navy [&_h4]:mt-5 [&_h4]:font-display [&_h4]:text-base [&_h4]:font-bold [&_h4]:text-navy [&_li]:mt-1 [&_ol]:mt-4 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-5 [&_p]:mt-3 [&_p:first-child]:mt-0 [&_strong]:font-bold [&_strong]:text-navy [&_ul]:mt-4 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-5";
 
 function HtmlBlock({ html, className = "" }: { html?: string; className?: string }) {
   const value = (html || "").trim();
