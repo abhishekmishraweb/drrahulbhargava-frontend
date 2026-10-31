@@ -274,10 +274,7 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
       <TableOfContents items={tocItems} />
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-12">
         <div className="mx-auto max-w-3xl">
-          <h1 className="mb-5 font-display text-[1.45rem] font-extrabold leading-snug text-navy sm:mb-6 sm:text-4xl lg:text-[2.4rem]">
-            {title}
-          </h1>
-          <div className="mb-6 overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-100 sm:rounded-3xl">
+          <div className="mb-5 overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-100 sm:mb-6 sm:rounded-3xl">
             <Image
               src={banner}
               alt={title}
@@ -289,6 +286,9 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
               unoptimized
             />
           </div>
+          <h1 className="mb-6 font-display text-[1.45rem] font-extrabold leading-snug text-navy sm:text-4xl lg:text-[2.4rem]">
+            {title}
+          </h1>
 
           {page ? (
             <>

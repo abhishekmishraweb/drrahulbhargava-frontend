@@ -877,6 +877,7 @@ export async function fetchProfilePage(): Promise<ProfilePageContent | null> {
 export type TreatmentNavItem = {
   title: string;
   slug: string;
+  image?: string;
 };
 
 export type TreatmentSection = {
@@ -997,10 +998,16 @@ export async function fetchTreatmentsNav(): Promise<TreatmentNavItem[]> {
     const json = (await res.json()) as ApiEnvelope<Array<Record<string, unknown>>>;
     const rows = Array.isArray(json?.data) ? json.data : [];
     return rows
-      .map((row) => ({
-        title: String(row.title ?? "").trim(),
-        slug: String(row.slug ?? "").trim(),
-      }))
+      .map((row) => {
+        const slug = String(row.slug ?? "").trim();
+        return {
+          title: String(row.title ?? "").trim(),
+          slug,
+          image:
+            String(row.image ?? "").trim() ||
+            (slug ? `/images/treatments/${slug}.png` : undefined),
+        };
+      })
       .filter((row) => row.title && row.slug);
   } catch {
     return [];

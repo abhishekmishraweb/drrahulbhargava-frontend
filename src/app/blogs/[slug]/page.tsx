@@ -5,6 +5,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { ReviewerBox } from "@/components/ReviewerBox";
 import { TableOfContents } from "@/components/TableOfContents";
 import { TreatmentFaqs } from "@/components/TreatmentConsult";
+import { TreatmentsCarousel } from "@/components/TreatmentsCarousel";
 import { blogs } from "@/lib/data";
 import { getBlogPage } from "@/lib/blogPages";
 import { fetchBlog, fetchBlogs, fetchTreatmentsNav } from "@/lib/api";
@@ -12,7 +13,6 @@ import { CalendarDays, User } from "lucide-react";
 import { pageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
 export const instant = false;
@@ -103,7 +103,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   return (
     <>
       <JsonLd json={fromApi?.schema_json} />
-      <PageHero title={title} items={[{ href: "/blogs", label: "Blogs" }, { label: title }]} />
+      <PageHero items={[{ href: "/blogs", label: "Blogs" }, { label: title }]} />
       <TableOfContents items={blogToc} />
 
       <div className="mx-auto max-w-4xl space-y-8 px-4 py-6 sm:space-y-10 sm:px-6 sm:py-8 lg:px-8 lg:py-12">
@@ -119,6 +119,10 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
             unoptimized
           />
         </div>
+
+        <h1 className="font-display text-[1.45rem] font-extrabold leading-snug text-navy sm:text-4xl lg:text-[2.4rem]">
+          {title}
+        </h1>
 
         <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-slate-500">
           <span className="inline-flex items-center gap-1.5">
@@ -230,20 +234,15 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
 
         {/* 11. Related Treatments */}
         {related.length > 0 ? (
-          <section id="related-treatments" className="scroll-mt-28">
-            <h2 className="mb-4 font-display text-2xl font-extrabold text-navy">Related Treatments</h2>
-            <div className="grid gap-3 sm:grid-cols-2">
-              {related.map((t) => (
-                <Link
-                  key={t.slug}
-                  href={`/treatments/${t.slug}`}
-                  className="rounded-2xl border border-slate-200 bg-white px-5 py-4 font-display text-base font-bold text-navy shadow-sm transition hover:border-teal/40 hover:text-teal"
-                >
-                  {t.title}
-                </Link>
-              ))}
-            </div>
-          </section>
+          <div id="related-treatments" className="scroll-mt-28">
+            <TreatmentsCarousel
+              treatments={related.map((t) => ({
+                slug: t.slug,
+                title: t.title,
+                image: t.image || `/images/treatments/${t.slug}.png`,
+              }))}
+            />
+          </div>
         ) : null}
       </div>
     </>
