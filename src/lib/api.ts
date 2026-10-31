@@ -911,6 +911,34 @@ export type TreatmentReview = {
   link?: string;
 };
 
+export type MedicalReviewer = {
+  name: string;
+  designation: string;
+  affiliation: string;
+  bio: string;
+  image: string | null;
+  linkedin: string;
+  link_text: string;
+  link_url: string;
+};
+
+function mapMedicalReviewer(raw: unknown): MedicalReviewer | null {
+  if (!raw || typeof raw !== "object") return null;
+  const r = raw as Record<string, unknown>;
+  const name = String(r.name ?? "").trim();
+  if (!name) return null;
+  return {
+    name,
+    designation: String(r.designation ?? "").trim(),
+    affiliation: String(r.affiliation ?? "").trim(),
+    bio: String(r.bio ?? "").trim(),
+    image: String(r.image ?? "").trim() || null,
+    linkedin: String(r.linkedin ?? "").trim(),
+    link_text: String(r.link_text ?? "View Profile").trim() || "View Profile",
+    link_url: String(r.link_url ?? "/profile").trim() || "/profile",
+  };
+}
+
 export type TreatmentPageContent = {
   slug: string;
   navTitle: string;
@@ -944,6 +972,7 @@ export type TreatmentPageContent = {
   meta_description?: string;
   meta_keywords?: string;
   schema_json?: string;
+  reviewer?: MedicalReviewer | null;
 };
 
 export async function fetchTreatmentsNav(): Promise<TreatmentNavItem[]> {
@@ -1108,6 +1137,7 @@ export async function fetchTreatmentPage(slug: string): Promise<TreatmentPageCon
       meta_description: String(data.meta_description ?? "").trim() || undefined,
       meta_keywords: String(data.meta_keywords ?? "").trim() || undefined,
       schema_json: String(data.schema_json ?? "").trim() || undefined,
+      reviewer: mapMedicalReviewer(data.reviewer),
     };
   } catch {
     return null;
@@ -1564,6 +1594,7 @@ export type BlogDetail = BlogListItem & {
   meta_description: string;
   meta_keywords: string;
   schema_json: string;
+  reviewer?: MedicalReviewer | null;
 };
 
 function formatBlogDate(value: unknown): string {
@@ -1677,6 +1708,7 @@ export async function fetchBlog(slug: string): Promise<BlogDetail | null> {
       meta_description: String(data.meta_description ?? data.excerpt ?? "").trim(),
       meta_keywords: String(data.meta_keywords ?? "").trim(),
       schema_json: String(data.schema_json ?? "").trim(),
+      reviewer: mapMedicalReviewer(data.reviewer),
     };
   } catch {
     return null;

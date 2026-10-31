@@ -2,6 +2,7 @@ import { PageHero } from "@/components/Breadcrumb";
 import { BlogContactForm } from "@/components/BlogContactForm";
 import { ContentCta } from "@/components/ContentCta";
 import { JsonLd } from "@/components/JsonLd";
+import { ReviewerBox } from "@/components/ReviewerBox";
 import { TableOfContents } from "@/components/TableOfContents";
 import { TreatmentFaqs } from "@/components/TreatmentConsult";
 import { blogs } from "@/lib/data";
@@ -81,6 +82,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
         ...(fromApi.optional_content_2 ? [{ href: "#box-2", label: "Content box 2" }] : []),
         ...(fromApi.optional_content_3 ? [{ href: "#box-3", label: "Content box 3" }] : []),
         ...(fromApi.faqs.length ? [{ href: "#faqs", label: fromApi.faqs_heading || "FAQs" }] : []),
+        ...(fromApi.reviewer?.name ? [{ href: "#reviewer", label: "Reviewer" }] : []),
         ...(related.length ? [{ href: "#related-treatments", label: "Related Treatments" }] : []),
       ]
     : fallbackPage
@@ -118,10 +120,15 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
           />
         </div>
 
-        <div className="flex flex-wrap gap-4 text-sm text-slate-500">
+        <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-slate-500">
           <span className="inline-flex items-center gap-1.5">
             <User className="h-4 w-4 text-teal" /> By {author}
           </span>
+          {fromApi?.reviewer?.name ? (
+            <span className="inline-flex items-center gap-1.5">
+              Reviewed by <span className="font-semibold text-navy">{fromApi.reviewer.name}</span>
+            </span>
+          ) : null}
           <span className="inline-flex items-center gap-1.5">
             <CalendarDays className="h-4 w-4 text-teal" /> {date}
           </span>
@@ -175,6 +182,8 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                 <TreatmentFaqs faqs={fromApi.faqs} />
               </section>
             ) : null}
+
+            {fromApi.reviewer?.name ? <ReviewerBox reviewer={fromApi.reviewer} /> : null}
           </>
         ) : fallbackPage ? (
           <>

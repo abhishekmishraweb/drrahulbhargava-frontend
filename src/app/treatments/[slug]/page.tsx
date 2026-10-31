@@ -4,10 +4,11 @@ import { JsonLd } from "@/components/JsonLd";
 import { TreatmentConsult, TreatmentFaqs } from "@/components/TreatmentConsult";
 import { BlogsCarousel } from "@/components/BlogsCarousel";
 import { ReviewsCarousel } from "@/components/ReviewsCarousel";
+import { ReviewerBox } from "@/components/ReviewerBox";
 import { TableOfContents } from "@/components/TableOfContents";
 import { slugifyHeading } from "@/lib/slugify";
 import { VideoCarousel } from "@/components/VideoCarousel";
-import { fetchBlogs, fetchTreatmentPage, fetchTreatmentsNav } from "@/lib/api";
+import { fetchBlogs, fetchTreatmentPage, fetchTreatmentsNav, type MedicalReviewer } from "@/lib/api";
 import { treatments } from "@/lib/data";
 import { getTreatmentPage, treatmentPages } from "@/lib/treatmentPages";
 import { CalendarDays, Clock, IndianRupee, Sparkles, TrendingUp } from "lucide-react";
@@ -175,6 +176,7 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
           related_blogs: [] as string[],
           published_at: undefined as string | undefined,
           content_updated_at: undefined as string | undefined,
+          reviewer: null as MedicalReviewer | null,
         }
       : null;
 
@@ -208,6 +210,7 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
           : []),
         ...(page.table ? [{ href: "#cost-table", label: page.table.caption || "Cost table" }] : []),
         ...(page.faqs.length ? [{ href: "#faqs", label: "FAQs" }] : []),
+        ...(page.reviewer?.name ? [{ href: "#reviewer", label: "Reviewer" }] : []),
         ...(page.google_reviews.length
           ? [{ href: "#reviews", label: page.google_reviews_heading || "Google Reviews" }]
           : []),
@@ -426,6 +429,10 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
                   </h2>
                   <TreatmentFaqs faqs={page.faqs} />
                 </section>
+              ) : null}
+
+              {page.reviewer?.name ? (
+                <ReviewerBox reviewer={page.reviewer} className="mt-12" />
               ) : null}
 
               {(publishedLabel || updatedLabel) && (
