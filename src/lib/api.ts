@@ -879,16 +879,9 @@ export type TreatmentNavItem = {
   slug: string;
 };
 
-export type TreatmentSectionGroup = {
-  title: string;
-  bullets: string[];
-};
-
 export type TreatmentSection = {
   heading: string;
   paragraphs?: string[];
-  bullets?: string[];
-  groups?: TreatmentSectionGroup[];
 };
 
 export type TreatmentVideo = {
@@ -1027,30 +1020,13 @@ export async function fetchTreatmentPage(slug: string): Promise<TreatmentPageCon
     const sections = Array.isArray(data.sections)
       ? data.sections
           .filter((s): s is Record<string, unknown> => !!s && typeof s === "object")
-          .map((s) => {
-            const groupsRaw = Array.isArray(s.groups) ? s.groups : [];
-            const groups = groupsRaw
-              .filter((g): g is Record<string, unknown> => !!g && typeof g === "object")
-              .map((g) => ({
-                title: String(g.title ?? "").trim(),
-                bullets: Array.isArray(g.bullets)
-                  ? g.bullets.map((b) => String(b).trim()).filter(Boolean)
-                  : [],
-              }))
-              .filter((g) => g.title || g.bullets.length > 0);
-
-            return {
-              heading: String(s.heading ?? "").trim(),
-              paragraphs: Array.isArray(s.paragraphs)
-                ? s.paragraphs.map((p) => String(p).trim()).filter(Boolean)
-                : undefined,
-              bullets: Array.isArray(s.bullets)
-                ? s.bullets.map((b) => String(b).trim()).filter(Boolean)
-                : undefined,
-              groups: groups.length > 0 ? groups : undefined,
-            };
-          })
-          .filter((s) => s.heading || (s.paragraphs && s.paragraphs.length) || (s.bullets && s.bullets.length))
+          .map((s) => ({
+            heading: String(s.heading ?? "").trim(),
+            paragraphs: Array.isArray(s.paragraphs)
+              ? s.paragraphs.map((p) => String(p).trim()).filter(Boolean)
+              : undefined,
+          }))
+          .filter((s) => s.heading || (s.paragraphs && s.paragraphs.length))
       : [];
 
     const tableRaw = data.table;

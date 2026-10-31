@@ -44,14 +44,10 @@ function SectionBlock({
   id,
   heading,
   paragraphs,
-  bullets,
-  groups,
 }: {
   id?: string;
   heading: string;
   paragraphs?: string[];
-  bullets?: string[];
-  groups?: Array<{ title: string; bullets: string[] }>;
 }) {
   return (
     <section id={id} className="mt-10 scroll-mt-28">
@@ -69,23 +65,6 @@ function SectionBlock({
           </p>
         )
       )}
-      {bullets?.length ? (
-        <ul className="mt-4 ml-3 list-disc space-y-2 pl-7 text-slate-600">
-          {bullets.map((b) => (
-            <li key={b}>{b}</li>
-          ))}
-        </ul>
-      ) : null}
-      {groups?.map((g) => (
-        <div key={g.title} className="mt-5">
-          <h3 className="font-display text-lg font-bold text-navy">{g.title}</h3>
-          <ul className="mt-2 ml-3 list-disc space-y-1.5 pl-7 text-slate-600">
-            {g.bullets.map((b) => (
-              <li key={b}>{b}</li>
-            ))}
-          </ul>
-        </div>
-      ))}
     </section>
   );
 }
@@ -377,8 +356,6 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
                     id={slugifyHeading(s.heading) || `section-${index + 1}`}
                     heading={s.heading}
                     paragraphs={s.paragraphs}
-                    bullets={s.bullets}
-                    groups={s.groups}
                   />
                   {index === 0 ? videosBlock : null}
                   {index === 1 ? galleryBlock : null}
