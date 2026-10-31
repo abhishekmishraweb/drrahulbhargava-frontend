@@ -913,9 +913,12 @@ export type TreatmentReview = {
 
 export type MedicalReviewer = {
   name: string;
+  slug: string;
   designation: string;
   affiliation: string;
+  experience: string;
   bio: string;
+  about: string;
   image: string | null;
   linkedin: string;
   link_text: string;
@@ -927,16 +930,33 @@ function mapMedicalReviewer(raw: unknown): MedicalReviewer | null {
   const r = raw as Record<string, unknown>;
   const name = String(r.name ?? "").trim();
   if (!name) return null;
+  const slug = String(r.slug ?? "").trim();
   return {
     name,
+    slug,
     designation: String(r.designation ?? "").trim(),
     affiliation: String(r.affiliation ?? "").trim(),
+    experience: String(r.experience ?? "").trim(),
     bio: String(r.bio ?? "").trim(),
+    about: String(r.about ?? "").trim(),
     image: String(r.image ?? "").trim() || null,
     linkedin: String(r.linkedin ?? "").trim(),
-    link_text: String(r.link_text ?? "View Profile").trim() || "View Profile",
-    link_url: String(r.link_url ?? "/profile").trim() || "/profile",
+    link_text: String(r.link_text ?? "Read more").trim() || "Read more",
+    link_url: String(r.link_url ?? "").trim() || (slug ? `/reviewers/${slug}` : "/profile"),
   };
+}
+
+export async function fetchReviewer(slug: string): Promise<MedicalReviewer | null> {
+  try {
+    const res = await fetch(`${API_BASE}/reviewers/${encodeURIComponent(slug)}`, {
+      next: { revalidate: 30 },
+    });
+    if (!res.ok) return null;
+    const json = (await res.json()) as ApiEnvelope<Record<string, unknown>>;
+    return mapMedicalReviewer(json?.data);
+  } catch {
+    return null;
+  }
 }
 
 export type TreatmentPageContent = {

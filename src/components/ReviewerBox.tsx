@@ -4,8 +4,10 @@ import { ArrowRight } from "lucide-react";
 
 export type MedicalReviewerInfo = {
   name: string;
+  slug?: string;
   designation?: string;
   affiliation?: string;
+  experience?: string;
   bio?: string;
   image?: string | null;
   linkedin?: string;
@@ -31,8 +33,10 @@ function initials(name: string): string {
 export function ReviewerBox({ reviewer, heading = "Reviewer", className = "" }: Props) {
   if (!reviewer?.name) return null;
 
-  const linkUrl = (reviewer.link_url || "").trim();
-  const linkText = (reviewer.link_text || "View Profile").trim() || "View Profile";
+  const linkUrl =
+    (reviewer.link_url || "").trim() ||
+    (reviewer.slug ? `/reviewers/${reviewer.slug}` : "");
+  const linkText = (reviewer.link_text || "Read more").trim() || "Read more";
   const linkedin = (reviewer.linkedin || "").trim();
   const image = (reviewer.image || "").trim();
 
