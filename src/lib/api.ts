@@ -908,6 +908,7 @@ export type TreatmentReview = {
   rating: number;
   text: string;
   date: string;
+  link?: string;
 };
 
 export type TreatmentPageContent = {
@@ -1062,6 +1063,7 @@ export async function fetchTreatmentPage(slug: string): Promise<TreatmentPageCon
             rating: Number(r.rating ?? 5) || 5,
             text: String(r.text ?? r.review ?? "").trim(),
             date: String(r.date ?? "").trim(),
+            link: String(r.link ?? r.url ?? "").trim() || undefined,
           }))
           .filter((r) => r.author || r.text)
       : [];

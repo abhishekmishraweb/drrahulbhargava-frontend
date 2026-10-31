@@ -2,11 +2,12 @@ import { PageHero } from "@/components/Breadcrumb";
 import { ContentCta } from "@/components/ContentCta";
 import { JsonLd } from "@/components/JsonLd";
 import { TreatmentConsult, TreatmentFaqs } from "@/components/TreatmentConsult";
+import { ReviewsCarousel } from "@/components/ReviewsCarousel";
 import { VideoCarousel } from "@/components/VideoCarousel";
 import { fetchBlogs, fetchTreatmentPage, fetchTreatmentsNav } from "@/lib/api";
 import { treatments } from "@/lib/data";
 import { getTreatmentPage, treatmentPages } from "@/lib/treatmentPages";
-import { CalendarDays, Clock, IndianRupee, Sparkles, Star, TrendingUp } from "lucide-react";
+import { CalendarDays, Clock, IndianRupee, Sparkles, TrendingUp } from "lucide-react";
 import { pageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -165,7 +166,7 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
           gallery_heading: undefined as string | undefined,
           media_gallery: [] as Array<{ image: string; title: string; link?: string }>,
           google_reviews_heading: undefined as string | undefined,
-          google_reviews: [] as Array<{ author: string; rating: number; text: string; date: string }>,
+          google_reviews: [] as Array<{ author: string; rating: number; text: string; date: string; link?: string }>,
           related_heading: undefined as string | undefined,
           related_blogs: [] as string[],
           published_at: undefined as string | undefined,
@@ -414,33 +415,10 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
               )}
 
               {page.google_reviews.length > 0 ? (
-                <section className="mt-12">
-                  <h2 className="mb-4 font-display text-xl font-extrabold text-navy sm:text-2xl">
-                    {page.google_reviews_heading || "Google Reviews"}
-                  </h2>
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    {page.google_reviews.map((review, i) => (
-                      <article
-                        key={`${review.author}-${i}`}
-                        className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
-                      >
-                        <div className="flex items-center gap-1 text-amber-500">
-                          {Array.from({ length: 5 }).map((_, star) => (
-                            <Star
-                              key={star}
-                              className={`h-4 w-4 ${star < Math.round(review.rating) ? "fill-current" : "text-slate-200"}`}
-                            />
-                          ))}
-                        </div>
-                        {review.text ? <p className="mt-3 text-sm leading-relaxed text-slate-600">{review.text}</p> : null}
-                        <p className="mt-3 font-display text-sm font-bold text-navy">
-                          {review.author || "Patient"}
-                          {review.date ? <span className="ml-2 font-normal text-slate-400">{review.date}</span> : null}
-                        </p>
-                      </article>
-                    ))}
-                  </div>
-                </section>
+                <ReviewsCarousel
+                  title={page.google_reviews_heading || "Google Reviews"}
+                  reviews={page.google_reviews}
+                />
               ) : null}
 
               {relatedBlogs.length > 0 ? (
