@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { HomePage } from "@/components/home/HomePage";
+import { HomeSkeleton } from "@/components/home/HomeSkeleton";
 import { JsonLd } from "@/components/JsonLd";
 import { fetchHomeContent, fetchSiteSettings } from "@/lib/api";
 
@@ -51,7 +52,7 @@ export default function Page() {
       <Suspense>
         <HomeSchema />
       </Suspense>
-      <Suspense fallback={<HomePage />}>
+      <Suspense fallback={<HomeSkeleton />}>
         <HomeFromAdmin />
       </Suspense>
     </>

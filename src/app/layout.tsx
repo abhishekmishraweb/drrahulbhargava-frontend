@@ -48,12 +48,14 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     icons: {
       icon: [
+        { url: "/favicon.svg", type: "image/svg+xml" },
         { url: favicon, type: "image/png" },
         { url: favicon, sizes: "32x32", type: "image/png" },
       ],
       shortcut: favicon,
       apple: favicon,
     },
+    manifest: "/site.webmanifest",
     openGraph: {
       title,
       description,

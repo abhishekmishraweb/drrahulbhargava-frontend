@@ -1,0 +1,30 @@
+{
+  "name": "Dr. Rahul Bhargava",
+  "short_name": "Dr Bhargava",
+  "description": "Hematologist & BMT specialist at Fortis Memorial Research Institute, Gurugram.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f3f8f1",
+  "theme_color": "#156f9f",
+  "lang": "en-IN",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
