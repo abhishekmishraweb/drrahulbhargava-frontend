@@ -71,11 +71,11 @@ export function AppointmentModal({
         type: "appointment",
         name: String(fd.get("name") || "").trim(),
         phone: phoneFromForm(form),
-        subject: diagnosis ? `Second opinion: ${diagnosis}` : "Second opinion",
+        subject: diagnosis ? `Consultation: ${diagnosis}` : title,
         message: note || undefined,
         product_name: diagnosis || undefined,
         source_page: typeof window !== "undefined" ? window.location.pathname : "/",
-        meta: { form: "second_opinion_modal", report_files: files.length },
+        meta: { form: "free_consult_modal", report_files: files.length },
       },
       files
     );
@@ -90,55 +90,61 @@ export function AppointmentModal({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[80] flex items-end justify-center bg-navy/60 p-4 backdrop-blur-sm sm:items-center">
-      <div className="relative max-h-[92vh] w-full max-w-lg overflow-y-auto rounded-3xl bg-white shadow-2xl">
+    <div className="fixed inset-0 z-[80] flex items-end justify-center bg-navy/60 p-3 backdrop-blur-sm sm:items-center sm:p-4">
+      <div className="relative w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-2xl">
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-4 top-4 z-10 rounded-full p-2 text-slate-400 hover:bg-soft"
+          className="absolute right-3 top-3 z-10 rounded-full p-1.5 text-slate-400 hover:bg-soft"
           aria-label="Close"
         >
-          <X className="h-5 w-5" />
+          <X className="h-4 w-4" />
         </button>
         {ok ? (
-          <div className="p-10 text-center">
-            <p className="font-display text-2xl font-bold text-navy">Request received</p>
+          <div className="p-8 text-center">
+            <p className="font-display text-xl font-bold text-navy">Request received</p>
             <p className="mt-2 text-sm text-slate-500">
               Our team will review your details{files.length ? " and reports" : ""} and respond shortly.
             </p>
-            <button type="button" className="btn-primary mt-6 px-8 py-3 text-sm" onClick={onClose}>
+            <button type="button" className="btn-primary mt-5 px-8 py-2.5 text-sm" onClick={onClose}>
               Done
             </button>
           </div>
         ) : (
-          <form onSubmit={onSubmit} className="space-y-4 p-6 sm:p-8">
-            <div className="flex items-start justify-between gap-3 pr-8">
-              <div>
-                <h3 className="font-display text-2xl font-bold text-navy">{title}</h3>
-                <p className="mt-1 text-xs text-slate-500">Free · No obligation · Strictly confidential.</p>
+          <form onSubmit={onSubmit} className="space-y-2.5 p-4 pt-3 sm:p-5 sm:pt-4">
+            <div className="pr-7">
+              <div className="flex flex-wrap items-center gap-2">
+                <h3 className="font-display text-[1.05rem] font-bold leading-snug text-navy sm:text-lg">
+                  {title}
+                </h3>
+                <span className="rounded-full bg-teal/10 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wide text-teal">
+                  100% FREE
+                </span>
               </div>
-              <span className="shrink-0 rounded-full bg-teal/10 px-3 py-1 text-[11px] font-extrabold uppercase text-teal">
-                100% FREE
-              </span>
+              <p className="mt-0.5 text-[11px] text-slate-500">Free · No obligation · Strictly confidential.</p>
             </div>
 
-            <input required name="name" placeholder="Full name" className="field" />
+            <input required name="name" placeholder="Full name" className="field !py-2.5" />
             <PhoneField placeholder="Phone Number" />
-            <input required name="diagnosis" placeholder="Current diagnosis" className="field" autoComplete="off" />
+            <input required name="diagnosis" placeholder="Current diagnosis" className="field !py-2.5" autoComplete="off" />
             <textarea
               name="message"
-              rows={3}
+              rows={2}
               placeholder="Symptoms, treatments tried, hospital visits…"
-              className="field resize-none"
+              className="field resize-none !py-2.5"
             />
 
             <div>
-              <label className="flex cursor-pointer flex-col items-center rounded-xl border-2 border-dashed border-slate-300 bg-soft/50 px-4 py-6 text-center hover:border-teal">
-                <UploadCloud className="mb-2 h-8 w-8 text-teal" />
-                <span className="text-sm">
-                  Drag & drop reports, or <span className="font-bold text-teal underline">browse files</span>
+              <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-slate-300 bg-soft/50 px-3 py-2.5 hover:border-teal">
+                <UploadCloud className="h-5 w-5 shrink-0 text-teal" />
+                <span className="min-w-0 text-left text-xs leading-snug text-slate-600">
+                  <span className="font-semibold text-navy">Attach reports</span>
+                  {" — "}
+                  <span className="font-bold text-teal underline">browse</span>
+                  <span className="mt-0.5 block text-[10px] font-normal text-slate-400">
+                    PDF, JPG · max 10 MB · up to {MAX_FILES} files
+                  </span>
                 </span>
-                <span className="mt-1 text-[11px] text-slate-400">PDF, JPG · max 10 MB · up to {MAX_FILES} files</span>
                 <input
                   type="file"
                   className="hidden"
@@ -151,11 +157,11 @@ export function AppointmentModal({
                 />
               </label>
               {files.length > 0 ? (
-                <ul className="mt-2 space-y-1">
+                <ul className="mt-1.5 space-y-1">
                   {files.map((file, i) => (
                     <li
                       key={`${file.name}-${i}`}
-                      className="flex items-center justify-between gap-2 rounded-lg bg-soft px-3 py-2 text-xs text-slate-600"
+                      className="flex items-center justify-between gap-2 rounded-lg bg-soft px-2.5 py-1.5 text-[11px] text-slate-600"
                     >
                       <span className="min-w-0 truncate font-medium">{file.name}</span>
                       <button
@@ -172,8 +178,8 @@ export function AppointmentModal({
             </div>
 
             {error ? <p className="text-sm text-red-600">{error}</p> : null}
-            <button type="submit" disabled={pending} className="btn-primary w-full py-3.5 text-sm disabled:opacity-60">
-              <FileSearch className="h-4 w-4" /> {pending ? "Sending…" : "Request second opinion"}
+            <button type="submit" disabled={pending} className="btn-primary w-full py-3 text-sm disabled:opacity-60">
+              <FileSearch className="h-4 w-4" /> {pending ? "Sending…" : "Request consultation"}
             </button>
           </form>
         )}
