@@ -12,7 +12,7 @@ const ACCEPT = ".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png";
 export function AppointmentModal({
   open,
   onClose,
-  title = "Request a second opinion",
+  title = "Get free medical consultation",
 }: {
   open: boolean;
   onClose: () => void;
