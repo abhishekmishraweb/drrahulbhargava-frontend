@@ -27,12 +27,19 @@ function absoluteUrl(pathOrUrl: string): string {
   return `${siteOrigin()}${pathOrUrl.startsWith("/") ? "" : "/"}${pathOrUrl}`;
 }
 
+export type OgImageItem = {
+  url: string;
+  width: number;
+  height: number;
+  alt: string;
+};
+
 /** Prefer a proper 1200×630 social card; admin logo is often too small for LinkedIn. */
 export function ogImageEntry(input?: {
   url?: string | null;
   alt?: string;
   preferGenerated?: boolean;
-}): NonNullable<NonNullable<Metadata["openGraph"]>["images"]> {
+}): OgImageItem[] {
   const alt = input?.alt || "Dr. Rahul Bhargava — Hematologist & BMT, Fortis Gurugram";
   const custom = input?.url?.trim();
   const useCustom = !!custom && !input?.preferGenerated;
@@ -83,7 +90,7 @@ export function pageMetadata(input: {
       card: "summary_large_image",
       title,
       description,
-      images: images.map((img) => (typeof img === "string" ? img : img.url)),
+      images: images.map((img) => img.url),
     },
   };
 }

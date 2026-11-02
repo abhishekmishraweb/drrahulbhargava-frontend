@@ -67,7 +67,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title,
       description,
-      images: images.map((img) => (typeof img === "string" ? img : String(img.url))),
+      images: images.map((img) => img.url),
     },
     other: {
       "theme-color": "#156f9f",
