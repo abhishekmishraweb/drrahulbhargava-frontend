@@ -1217,7 +1217,7 @@ export function HomePage({
               <h2 className="mt-2 font-display text-[1.45rem] font-extrabold leading-snug text-navy sm:text-3xl">Why Should You Choose Us? Read Our Health Tips</h2>
             </div>
             <div className="mt-7 flex shrink-0 items-center gap-3">
-              <Link href="/blogs" className="btn-primary hidden px-4 py-2 text-xs sm:inline-flex sm:text-sm">
+              <Link href="/blogs" className="btn-primary px-4 py-2 text-xs sm:text-sm">
                 View All Blogs <ArrowRight className="h-4 w-4" />
               </Link>
               <div className="flex gap-2">
@@ -1265,9 +1265,6 @@ export function HomePage({
               </Link>
             ))}
           </div>
-          <Link href="/blogs" className="btn-primary mt-6 inline-flex px-5 py-2.5 text-sm sm:hidden">
-            View All Blogs <ArrowRight className="h-4 w-4" />
-          </Link>
         </div>
       </section>
 
