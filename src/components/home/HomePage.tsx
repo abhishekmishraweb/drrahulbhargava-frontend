@@ -5,7 +5,6 @@ import { PhoneField } from "@/components/PhoneField";
 import {
   about,
   awards,
-  blogs,
   expertise,
   faqs,
   journey,
@@ -224,27 +223,7 @@ export function HomePage({
   featuredBlogs?: HomeFeaturedBlog[];
 }) {
   const slides = slidersProp && slidersProp.length > 0 ? slidersProp : FALLBACK_SLIDES;
-  const blogItems: HomeFeaturedBlog[] = (() => {
-    const bySlug = new Map<string, HomeFeaturedBlog>();
-    for (const b of blogs) {
-      bySlug.set(b.slug, {
-        slug: b.slug,
-        title: b.title,
-        image: b.image,
-        author: b.author,
-        date: b.date,
-      });
-    }
-    for (const b of featuredBlogsProp ?? []) {
-      bySlug.set(b.slug, b);
-    }
-    const catalogOrder = blogs.map((b) => b.slug);
-    const apiExtra = (featuredBlogsProp ?? []).map((b) => b.slug).filter((s) => !catalogOrder.includes(s));
-    return [...catalogOrder, ...apiExtra]
-      .map((slug) => bySlug.get(slug)!)
-      .filter(Boolean)
-      .slice(0, 8);
-  })();
+  const blogItems: HomeFeaturedBlog[] = featuredBlogsProp ?? [];
   const marqueeLabels = marqueeItems && marqueeItems.length > 0 ? marqueeItems : marquee;
   const serviceItems: HomeService[] =
     servicesProp?.items && servicesProp.items.length > 0

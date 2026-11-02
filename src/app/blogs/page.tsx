@@ -1,40 +1,10 @@
 import { PageHero } from "@/components/Breadcrumb";
 import { JsonLd } from "@/components/JsonLd";
-import { blogs as catalogBlogs } from "@/lib/data";
-import { fetchBlogs, fetchBlogsListingPage, type BlogListItem } from "@/lib/api";
+import { fetchBlogs, fetchBlogsListingPage } from "@/lib/api";
 import { pageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-
-function mergeBlogList(fromApi: BlogListItem[]): BlogListItem[] {
-  const bySlug = new Map<string, BlogListItem>();
-
-  for (const b of catalogBlogs) {
-    bySlug.set(b.slug, {
-      id: 0,
-      slug: b.slug,
-      title: b.title,
-      excerpt: b.excerpt,
-      image: b.image,
-      author: b.author,
-      date: b.date,
-      published_at: b.date,
-    });
-  }
-
-  // Admin/API posts win on the same slug; extras (newly published) are included.
-  for (const b of fromApi) {
-    bySlug.set(b.slug, b);
-  }
-
-  // Catalog health tips first; admin-only posts (e.g. newly published) append.
-  const catalogOrder = catalogBlogs.map((b) => b.slug);
-  const apiExtra = fromApi.map((b) => b.slug).filter((s) => !catalogOrder.includes(s));
-  const ordered = [...catalogOrder, ...apiExtra];
-
-  return ordered.map((slug) => bySlug.get(slug)!).filter(Boolean);
-}
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await fetchBlogsListingPage();
@@ -46,15 +16,13 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function BlogsPage() {
-  const [page, fromApi] = await Promise.all([fetchBlogsListingPage(), fetchBlogs()]);
+  const [page, items] = await Promise.all([fetchBlogsListingPage(), fetchBlogs()]);
 
   const heroKicker = page?.hero_kicker || "Health tips";
   const heroTitle = page?.hero_title || "Blogs";
   const heroSubtitle =
     page?.hero_subtitle ||
     "Health tips from Dr. Rahul Bhargava’s hematology practice at Fortis Gurugram.";
-
-  const items = mergeBlogList(fromApi);
 
   return (
     <>

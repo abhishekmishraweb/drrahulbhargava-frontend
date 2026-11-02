@@ -2,7 +2,7 @@
 
 import { AppointmentModal } from "@/components/AppointmentModal";
 import { Logo } from "@/components/Logo";
-import { blogs, navTreatments, site, treatments } from "@/lib/data";
+import { navTreatments, site, treatments } from "@/lib/data";
 import { fetchTreatmentsNav, type SiteSettings, type TreatmentNavItem } from "@/lib/api";
 import { applyGoogleTranslate, langByCode, langs, readSavedLang, type Lang } from "@/lib/langs";
 import { ChevronDown, Clock, Menu, Minus, Phone, Plus, Search, Stethoscope, X } from "lucide-react";
@@ -80,7 +80,7 @@ export function Header({ settings }: { settings?: SiteSettings | null }) {
       { href: "/global-patient-services", title: "Global Patient Services", kind: "Pages" },
       { href: "/disclaimer", title: "Disclaimer", kind: "Pages" },
       ...treatments.map((t) => ({ href: `/treatments/${t.slug}`, title: t.title, kind: "Treatments" })),
-      ...blogs.map((b) => ({ href: `/blogs/${b.slug}`, title: b.title, kind: "Blogs" })),
+      { href: "/blogs", title: "Blogs", kind: "Pages" },
     ];
     return pages.filter((p) => p.title.toLowerCase().includes(s)).slice(0, 8);
   }, [q]);
