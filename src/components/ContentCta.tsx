@@ -17,7 +17,7 @@ export function ContentCta({ html, className = "", showActions = true }: Props) 
       className={`overflow-hidden rounded-2xl bg-[#124a36] p-5 text-white shadow-[0_12px_40px_rgba(18,74,54,0.28)] sm:rounded-3xl sm:p-6 ${className}`}
     >
       <div
-        className="cta-medigence text-[15px] leading-relaxed text-white/90 md:text-[16px] [&_a]:font-semibold [&_a]:text-[#86efac] [&_a]:underline [&_a]:underline-offset-2 hover:[&_a]:text-white [&_h2]:mt-0 [&_h2]:font-display [&_h2]:text-xl [&_h2]:font-extrabold [&_h2]:text-white sm:[&_h2]:text-2xl [&_h3]:mt-3 [&_h3]:font-display [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-white [&_li]:mt-1 [&_p]:mt-2 [&_p:first-child]:mt-0 [&_strong]:text-white [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:pl-5"
+        className="cta-medigence text-[15px] leading-relaxed text-white/90 md:text-[16px] [&_a]:font-semibold [&_a]:text-[#86efac] [&_a]:underline [&_a]:underline-offset-2 hover:[&_a]:text-white [&_h2]:mt-0 [&_h2]:font-display [&_h2]:text-xl [&_h2]:font-extrabold [&_h2]:text-white sm:[&_h2]:text-2xl [&_h3]:mt-3 [&_h3]:font-display [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-white [&_li]:mt-1 [&_p]:mt-2 [&_p:first-child]:mt-0 [&_strong]:text-white [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:ps-5"
         dangerouslySetInnerHTML={{ __html: value }}
       />
 

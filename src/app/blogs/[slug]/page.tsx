@@ -210,7 +210,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                   </p>
                 ))}
                 {s.bullets ? (
-                  <ul className="mt-4 ml-3 list-disc space-y-2 pl-7 text-slate-600">
+                  <ul className="mt-4 ms-3 list-disc space-y-2 ps-7 text-slate-600">
                     {s.bullets.map((item) => (
                       <li key={item}>{item}</li>
                     ))}

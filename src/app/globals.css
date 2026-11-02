@@ -52,7 +52,7 @@ input[type="button"] {
   font-family: var(--font-display), system-ui, sans-serif;
 }
 
-/* Content lists: indent bullets inward (not flush with paragraph edge) */
+/* Content lists: indent bullets inward (LTR left / RTL right) */
 .prose-blog ul,
 .prose-treatment ul,
 .prose-blog ol,
@@ -60,8 +60,10 @@ input[type="button"] {
   list-style-position: outside;
   margin-top: 1rem;
   margin-bottom: 1rem;
-  padding-left: 1.75rem !important;
-  margin-left: 0.75rem;
+  padding-inline-start: 1.75rem !important;
+  margin-inline-start: 0.75rem;
+  padding-inline-end: 0;
+  margin-inline-end: 0;
 }
 
 .prose-blog ul,
@@ -77,14 +79,14 @@ input[type="button"] {
 .prose-blog li,
 .prose-treatment li {
   margin-top: 0.35rem;
-  padding-left: 0.25rem;
+  padding-inline-start: 0.25rem;
 }
 
 .prose-blog ul ul,
 .prose-treatment ul ul {
   margin-top: 0.35rem;
   margin-bottom: 0.35rem;
-  margin-left: 0.25rem;
+  margin-inline-start: 0.25rem;
 }
 
 .dots {

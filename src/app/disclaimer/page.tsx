@@ -110,7 +110,7 @@ export default async function DisclaimerPage() {
                 )
               )}
               {section.bullets.length > 0 ? (
-                <ul className="mt-4 list-disc space-y-2 pl-5 text-slate-600">
+                <ul className="mt-4 list-disc space-y-2 ps-5 text-slate-600">
                   {section.bullets.map((b) => (
                     <li key={b}>{b}</li>
                   ))}
