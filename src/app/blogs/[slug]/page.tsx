@@ -7,6 +7,7 @@ import { TableOfContents } from "@/components/TableOfContents";
 import { TreatmentFaqs } from "@/components/TreatmentConsult";
 import { TreatmentsCarousel } from "@/components/TreatmentsCarousel";
 import { fetchBlog, fetchBlogs, fetchTreatmentsNav } from "@/lib/api";
+import { tocLabelFromHtml } from "@/lib/tocLabel";
 import { CalendarDays, User } from "lucide-react";
 import { pageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
@@ -63,13 +64,26 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
 
   const blogToc = [
     ...(fromApi.short_content || fromApi.excerpt
-      ? [{ href: "#intro", label: "Introduction" }]
+      ? [
+          {
+            href: "#intro",
+            label: tocLabelFromHtml(fromApi.short_content || fromApi.excerpt, "Introduction"),
+          },
+        ]
       : []),
     { href: "#contact", label: "Get in touch" },
-    ...(fromApi.content ? [{ href: "#content", label: "Main content" }] : []),
-    ...(fromApi.optional_content_1 ? [{ href: "#box-1", label: "Content box 1" }] : []),
-    ...(fromApi.optional_content_2 ? [{ href: "#box-2", label: "Content box 2" }] : []),
-    ...(fromApi.optional_content_3 ? [{ href: "#box-3", label: "Content box 3" }] : []),
+    ...(fromApi.content
+      ? [{ href: "#content", label: tocLabelFromHtml(fromApi.content, "Main content") }]
+      : []),
+    ...(fromApi.optional_content_1
+      ? [{ href: "#box-1", label: tocLabelFromHtml(fromApi.optional_content_1, "Section 1") }]
+      : []),
+    ...(fromApi.optional_content_2
+      ? [{ href: "#box-2", label: tocLabelFromHtml(fromApi.optional_content_2, "Section 2") }]
+      : []),
+    ...(fromApi.optional_content_3
+      ? [{ href: "#box-3", label: tocLabelFromHtml(fromApi.optional_content_3, "Section 3") }]
+      : []),
     ...(fromApi.faqs.length ? [{ href: "#faqs", label: fromApi.faqs_heading || "FAQs" }] : []),
     ...(fromApi.reviewer?.name ? [{ href: "#reviewer", label: "Reviewer" }] : []),
     ...(related.length ? [{ href: "#related-treatments", label: "Related Treatments" }] : []),

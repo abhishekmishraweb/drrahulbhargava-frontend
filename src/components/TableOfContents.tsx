@@ -10,7 +10,7 @@ type Props = {
   title?: string;
 };
 
-export function TableOfContents({ items, title = "On this page" }: Props) {
+export function TableOfContents({ items, title = "Table of Contents" }: Props) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
