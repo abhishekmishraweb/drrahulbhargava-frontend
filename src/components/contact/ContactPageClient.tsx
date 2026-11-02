@@ -33,7 +33,6 @@ export function ContactPageClient({ content }: { content: ContactPageContent }) 
       {
         type: "contact",
         name: String(fd.get("name") || "").trim(),
-        email: String(fd.get("email") || "").trim(),
         phone: phoneFromForm(form),
         subject: "Contact form",
         message: note || undefined,
@@ -158,7 +157,6 @@ export function ContactPageClient({ content }: { content: ContactPageContent }) 
                   {content.form_intro ? <p className="text-sm text-slate-500">{content.form_intro}</p> : null}
                   <input required name="name" placeholder="Patient name" className="field" />
                   <PhoneField placeholder="Phone" />
-                  <input required name="email" type="email" placeholder="Email" className="field" />
                   <textarea
                     required
                     name="message"
