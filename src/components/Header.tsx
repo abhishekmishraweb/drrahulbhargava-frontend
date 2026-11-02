@@ -146,7 +146,7 @@ export function Header({ settings }: { settings?: SiteSettings | null }) {
             ))}
             <div className="group relative">
               <Link
-                href="/treatments/thalassemia"
+                href="/treatments"
                 className={`flex items-center gap-1 whitespace-nowrap text-[16px] font-semibold tracking-wide ${
                   path.startsWith("/treatments") ? "text-teal" : "text-navy-deep hover:text-teal"
                 }`}
@@ -166,6 +166,14 @@ export function Header({ settings }: { settings?: SiteSettings | null }) {
                     {t.title}
                   </Link>
                 ))}
+                <Link
+                  href="/treatments"
+                  className={`mt-1 block border-t border-slate-100 px-4 py-2.5 text-[15px] font-semibold text-teal hover:bg-soft ${
+                    path === "/treatments" ? "bg-soft" : ""
+                  }`}
+                >
+                  View all treatments
+                </Link>
                 </div>
               </div>
             </div>
@@ -255,8 +263,9 @@ export function Header({ settings }: { settings?: SiteSettings | null }) {
               Treatments
               {treatOpen ? <Minus className="h-4 w-4 text-teal" /> : <Plus className="h-4 w-4 text-navy" />}
             </button>
-            {treatOpen
-              ? menuTreatments.map((t) => (
+            {treatOpen ? (
+              <>
+                {menuTreatments.map((t) => (
                   <Link
                     key={t.slug}
                     href={`/treatments/${t.slug}`}
@@ -265,8 +274,16 @@ export function Header({ settings }: { settings?: SiteSettings | null }) {
                   >
                     {t.title}
                   </Link>
-                ))
-              : null}
+                ))}
+                <Link
+                  href="/treatments"
+                  onClick={() => setOpen(false)}
+                  className="block rounded-xl px-5 py-2 text-sm font-semibold text-teal"
+                >
+                  View all treatments
+                </Link>
+              </>
+            ) : null}
             {[
               ["/contact", "Contact"],
             ].map(([href, label]) => (

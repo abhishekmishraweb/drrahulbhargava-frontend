@@ -880,6 +880,52 @@ export type TreatmentNavItem = {
   image?: string;
 };
 
+export type TreatmentListItem = {
+  slug: string;
+  title: string;
+  image: string;
+  excerpt: string;
+};
+
+function treatmentExcerpt(raw: unknown, max = 160): string {
+  const text = String(raw ?? "")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (!text) return "";
+  if (text.length <= max) return text;
+  return `${text.slice(0, max - 1).trimEnd()}…`;
+}
+
+export async function fetchTreatmentsList(): Promise<TreatmentListItem[]> {
+  try {
+    const res = await fetch(`${API_BASE}/treatments`, { next: { revalidate: 30 } });
+    if (!res.ok) return [];
+    const json = (await res.json()) as ApiEnvelope<Array<Record<string, unknown>>>;
+    const rows = Array.isArray(json?.data) ? json.data : [];
+    return rows
+      .map((row) => {
+        const slug = String(row.slug ?? "").trim();
+        const intro = Array.isArray(row.intro) ? row.intro[0] : "";
+        const excerpt =
+          treatmentExcerpt(row.meta_description) ||
+          treatmentExcerpt(intro) ||
+          "";
+        return {
+          title: String(row.title ?? "").trim(),
+          slug,
+          image:
+            String(row.image ?? "").trim() ||
+            (slug ? `/images/treatments/${slug}.png` : ""),
+          excerpt,
+        };
+      })
+      .filter((row) => row.title && row.slug);
+  } catch {
+    return [];
+  }
+}
+
 export type TreatmentSection = {
   heading: string;
   paragraphs?: string[];

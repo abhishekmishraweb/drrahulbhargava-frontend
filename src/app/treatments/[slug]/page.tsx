@@ -173,7 +173,7 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
   if (!page && !t) notFound();
 
   const title = page?.pageTitle ?? t!.title;
-  const crumbs = [{ href: "/#specializations", label: "Treatments" }, { label: page?.navTitle ?? t!.title }];
+  const crumbs = [{ href: "/treatments", label: "Treatments" }, { label: page?.navTitle ?? t!.title }];
   const banner = page?.image || `/images/treatments/${slug}.png`;
   const relatedBlogSlugs = page?.related_blogs ?? [];
   const relatedBlogs =
