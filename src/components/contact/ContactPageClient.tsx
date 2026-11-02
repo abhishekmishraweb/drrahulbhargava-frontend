@@ -29,25 +29,21 @@ export function ContactPageClient({ content }: { content: ContactPageContent }) 
     const subject = String(fd.get("subject") || "").trim();
     const note = String(fd.get("message") || "").trim();
     const fileInput = form.querySelector<HTMLInputElement>('input[type="file"]');
-    const fileCount = fileInput?.files?.length ?? 0;
-    const result = await submitEnquiry({
-      type: "contact",
-      name: String(fd.get("name") || "").trim(),
-      email: String(fd.get("email") || "").trim(),
-      phone: phoneFromForm(form),
-      subject: subject || "Contact form",
-      message: [
-        note,
-        fileCount > 0
-          ? `(Patient indicated ${fileCount} report file(s) — please follow up to collect reports.)`
-          : "",
-      ]
-        .filter(Boolean)
-        .join("\n"),
-      product_name: subject || undefined,
-      source_page: "/contact",
-      meta: { form: "contact_page", report_files_noted: fileCount },
-    });
+    const reportFiles = fileInput?.files ? Array.from(fileInput.files).slice(0, 6) : [];
+    const result = await submitEnquiry(
+      {
+        type: "contact",
+        name: String(fd.get("name") || "").trim(),
+        email: String(fd.get("email") || "").trim(),
+        phone: phoneFromForm(form),
+        subject: subject || "Contact form",
+        message: note || undefined,
+        product_name: subject || undefined,
+        source_page: "/contact",
+        meta: { form: "contact_page", report_files: reportFiles.length },
+      },
+      reportFiles
+    );
     setPending(false);
     if (!result.ok) {
       setError(result.message);

@@ -1886,27 +1886,53 @@ export function phoneFromForm(form: HTMLFormElement, name = "phone"): string {
 
 /** POST enquiry to Laravel admin (saved under /admin/enquiry + email to admin). */
 export async function submitEnquiry(
-  payload: EnquiryPayload
+  payload: EnquiryPayload,
+  reportFiles: File[] = []
 ): Promise<{ ok: boolean; message: string }> {
   try {
-    const res = await fetch(`${API_BASE}/enquiries`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        type: payload.type,
-        name: payload.name || undefined,
-        email: payload.email || undefined,
-        phone: payload.phone || undefined,
-        subject: payload.subject || undefined,
-        message: payload.message || undefined,
-        source_page: payload.source_page || undefined,
-        product_name: payload.product_name || undefined,
-        meta: payload.meta || undefined,
-      }),
-    });
+    const hasFiles = reportFiles.length > 0;
+    let res: Response;
+
+    if (hasFiles) {
+      const body = new FormData();
+      body.append("type", payload.type);
+      if (payload.name) body.append("name", payload.name);
+      if (payload.email) body.append("email", payload.email);
+      if (payload.phone) body.append("phone", payload.phone);
+      if (payload.subject) body.append("subject", payload.subject);
+      if (payload.message) body.append("message", payload.message);
+      if (payload.source_page) body.append("source_page", payload.source_page);
+      if (payload.product_name) body.append("product_name", payload.product_name);
+      if (payload.meta) body.append("meta", JSON.stringify(payload.meta));
+      for (const file of reportFiles) {
+        body.append("reports[]", file, file.name);
+      }
+      res = await fetch(`${API_BASE}/enquiries`, {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body,
+      });
+    } else {
+      res = await fetch(`${API_BASE}/enquiries`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          type: payload.type,
+          name: payload.name || undefined,
+          email: payload.email || undefined,
+          phone: payload.phone || undefined,
+          subject: payload.subject || undefined,
+          message: payload.message || undefined,
+          source_page: payload.source_page || undefined,
+          product_name: payload.product_name || undefined,
+          meta: payload.meta || undefined,
+        }),
+      });
+    }
+
     const json = (await res.json().catch(() => ({}))) as {
       success?: boolean;
       message?: string;

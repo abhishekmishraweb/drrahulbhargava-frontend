@@ -462,24 +462,20 @@ export function HomePage({
     const diagnosis = String(fd.get("diagnosis") || "").trim();
     const note = String(fd.get("message") || "").trim();
     const fileInput = form.querySelector<HTMLInputElement>('input[type="file"]');
-    const fileCount = fileInput?.files?.length ?? 0;
-    const result = await submitEnquiry({
-      type: "appointment",
-      name: String(fd.get("name") || "").trim(),
-      phone: phoneFromForm(form),
-      subject: diagnosis ? `Second opinion: ${diagnosis}` : "Second opinion",
-      message: [
-        note,
-        fileCount > 0
-          ? `(Patient indicated ${fileCount} report file(s) — please follow up to collect reports.)`
-          : "",
-      ]
-        .filter(Boolean)
-        .join("\n"),
-      product_name: diagnosis || undefined,
-      source_page: "/",
-      meta: { form: "home_second_opinion", report_files_noted: fileCount },
-    });
+    const reportFiles = fileInput?.files ? Array.from(fileInput.files).slice(0, 6) : [];
+    const result = await submitEnquiry(
+      {
+        type: "appointment",
+        name: String(fd.get("name") || "").trim(),
+        phone: phoneFromForm(form),
+        subject: diagnosis ? `Second opinion: ${diagnosis}` : "Second opinion",
+        message: note || undefined,
+        product_name: diagnosis || undefined,
+        source_page: "/",
+        meta: { form: "home_second_opinion", report_files: reportFiles.length },
+      },
+      reportFiles
+    );
     setSoPending(false);
     if (!result.ok) {
       setSoError(result.message);
@@ -1088,7 +1084,13 @@ export function HomePage({
                     Drag & drop reports, or <span className="font-bold text-teal underline">browse files</span>
                   </span>
                   <span className="mt-1 text-[11px] text-slate-400">PDF, JPG · max 10 MB · up to 6 files</span>
-                  <input type="file" className="hidden" multiple />
+                  <input
+                    type="file"
+                    name="reports"
+                    className="hidden"
+                    multiple
+                    accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"
+                  />
                 </label>
                 {soError ? <p className="text-sm text-red-600">{soError}</p> : null}
                 <button type="submit" disabled={soPending} className="btn-primary w-full py-4 text-sm disabled:opacity-60">

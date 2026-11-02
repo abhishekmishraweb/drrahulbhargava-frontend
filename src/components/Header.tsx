@@ -344,7 +344,7 @@ export function Header({ settings }: { settings?: SiteSettings | null }) {
         </div>
       )}
 
-      <AppointmentModal open={modal} onClose={() => setModal(false)} title="Get free medical consultation" />
+      <AppointmentModal open={modal} onClose={() => setModal(false)} title="Request a second opinion" />
     </>
   );
 }
