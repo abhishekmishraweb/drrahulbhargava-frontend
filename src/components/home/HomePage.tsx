@@ -19,7 +19,6 @@ import {
 import {
   ArrowRight,
   Award,
-  CalendarDays,
   CheckCircle2,
   Clock,
   ChevronLeft,
@@ -147,8 +146,6 @@ const FALLBACK_SLIDES: HomeSlider[] = [
     sub_title: "Hematology & Bone Marrow Transplant",
     description:
       "Dr. Rahul Bhargava — Principal Director & Chief Hematology at Fortis Gurugram. 1,500+ stem cell transplants. First Indian doctor to popularise BMT for multiple sclerosis.",
-    button_text: "Book Appointment",
-    link_url: "",
     button_text_2: "Get a Second Opinion",
     link_url_2: "#second-opinion",
   },
@@ -160,8 +157,6 @@ const FALLBACK_SLIDES: HomeSlider[] = [
     sub_title: "Hematology & Bone Marrow Transplant",
     description:
       "Dr. Rahul Bhargava — Principal Director & Chief Hematology at Fortis Gurugram. 1,500+ stem cell transplants. First Indian doctor to popularise BMT for multiple sclerosis.",
-    button_text: "Book Appointment",
-    link_url: "",
     button_text_2: "Get a Second Opinion",
     link_url_2: "#second-opinion",
   },
@@ -173,8 +168,6 @@ const FALLBACK_SLIDES: HomeSlider[] = [
     sub_title: "Hematology & Bone Marrow Transplant",
     description:
       "Dr. Rahul Bhargava — Principal Director & Chief Hematology at Fortis Gurugram. 1,500+ stem cell transplants. First Indian doctor to popularise BMT for multiple sclerosis.",
-    button_text: "Book Appointment",
-    link_url: "",
     button_text_2: "Get a Second Opinion",
     link_url_2: "#second-opinion",
   },
@@ -197,11 +190,6 @@ function highlightTitle(title: string, word?: string | null) {
       <span key={i}>{part}</span>
     ),
   );
-}
-
-function isAppointmentLink(url?: string | null) {
-  const value = (url || "").trim();
-  return value === "" || value === "#appointment";
 }
 
 export function HomePage({
@@ -612,32 +600,16 @@ export function HomePage({
                   {active.description}
                 </p>
               ) : null}
-              <div className="mt-4 flex flex-col gap-2.5 sm:mt-7 sm:flex-row sm:flex-wrap sm:gap-3">
-                {isAppointmentLink(active?.link_url) ? (
-                  <button
-                    type="button"
-                    onClick={() => setModal(true)}
-                    className="btn-primary w-full bg-white px-5 py-2.5 text-[13px] text-navy hover:bg-teal hover:text-white sm:w-auto sm:px-7 sm:py-3.5 sm:text-sm"
-                  >
-                    <CalendarDays className="h-4 w-4" /> {active?.button_text || "Book Appointment"}
-                  </button>
-                ) : (
-                  <a
-                    href={active?.link_url || "#"}
-                    className="btn-primary w-full bg-white px-5 py-2.5 text-[13px] text-navy hover:bg-teal hover:text-white sm:w-auto sm:px-7 sm:py-3.5 sm:text-sm"
-                  >
-                    <CalendarDays className="h-4 w-4" /> {active?.button_text || "Book Appointment"}
-                  </a>
-                )}
-                {(active?.button_text_2 || active?.link_url_2) && (
+              {(active?.button_text_2 || active?.link_url_2) && (
+                <div className="mt-4 flex flex-col gap-2.5 sm:mt-7 sm:flex-row sm:flex-wrap sm:gap-3">
                   <a
                     href={active?.link_url_2 || "#second-opinion"}
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-full border-2 border-white/70 bg-white/10 px-5 py-2.5 text-[13px] font-semibold text-white backdrop-blur hover:border-teal hover:bg-teal sm:w-auto sm:px-7 sm:py-3.5 sm:text-sm"
+                    className="btn-primary w-full bg-white px-5 py-2.5 text-[13px] text-navy hover:bg-teal hover:text-white sm:w-auto sm:px-7 sm:py-3.5 sm:text-sm"
                   >
                     <FileSearch className="h-4 w-4" /> {active?.button_text_2 || "Get a Second Opinion"}
                   </a>
-                )}
-              </div>
+                </div>
+              )}
               <div className="mt-5 flex justify-center gap-2 sm:hidden">
                 {slides.map((slide, i) => (
                   <button
