@@ -1235,7 +1235,15 @@ export function HomePage({
                 className="w-[min(100%,320px)] shrink-0 snap-start overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm hover:shadow-lg sm:w-[calc(50%-10px)] lg:w-[calc(33.333%-14px)]"
               >
                 <div className="bg-slate-50">
-                  <Image src={b.image} alt={b.title} width={800} height={450} className="h-auto w-full" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 85vw" />
+                  <Image
+                    src={b.image}
+                    alt={b.title}
+                    width={800}
+                    height={450}
+                    className="h-auto w-full"
+                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 85vw"
+                    unoptimized
+                  />
                 </div>
                 <div className="p-6">
                   <p className="text-xs text-slate-400">
