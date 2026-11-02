@@ -409,10 +409,8 @@ export function HomePage({
         : ["1,500+ transplants", "23+ years", "Fortis Gurugram"],
     card_title: appointmentProp?.card_title || "Schedule your visit",
     card_subtitle:
-      appointmentProp?.card_subtitle || "Choose a slot — we will confirm on WhatsApp.",
-    btn_text: appointmentProp?.btn_text || "Book Appointment",
-    phone: appointmentProp?.phone || site.phone,
-    phone_href: appointmentProp?.phone_href || site.phoneHref,
+      appointmentProp?.card_subtitle || "Share reports — we will confirm on WhatsApp.",
+    btn_text: appointmentProp?.btn_text || "Contact Us",
     whatsapp_text: appointmentProp?.whatsapp_text || "WhatsApp us",
     whatsapp_url: appointmentProp?.whatsapp_url || site.whatsapp,
   };
@@ -1376,11 +1374,8 @@ export function HomePage({
                   onClick={() => setModal(true)}
                   className="btn-primary mt-5 w-full py-3.5 text-sm"
                 >
-                  <CalendarDays className="h-4 w-4" /> {cta.btn_text}
+                  <Send className="h-4 w-4" /> {cta.btn_text}
                 </button>
-                <a href={cta.phone_href} className="btn-ghost mt-3 w-full py-3 text-sm">
-                  <Phone className="h-4 w-4" /> {cta.phone}
-                </a>
                 <a
                   href={cta.whatsapp_url}
                   target="_blank"
@@ -1394,7 +1389,11 @@ export function HomePage({
           </div>
         </div>
       </section>
-      <AppointmentModal open={modal} onClose={() => setModal(false)} />
+      <AppointmentModal
+        open={modal}
+        onClose={() => setModal(false)}
+        title="Get free medical consultation"
+      />
     </>
   );
 }

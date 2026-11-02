@@ -502,6 +502,9 @@ function normalizeAppointment(raw?: Record<string, unknown>): HomeAppointmentSec
   if (!title && !text && !image && badges.length === 0) return null;
 
   const phone = String(raw.phone ?? raw.hotline ?? "").trim();
+  const rawBtn = String(raw.btn_text ?? "").trim();
+  const btnText =
+    !rawBtn || /^book\s+appointment$/i.test(rawBtn) ? "Contact Us" : rawBtn;
 
   return {
     eyebrow: String(raw.eyebrow ?? raw.tagline ?? "Same-week OPD").trim() || "Same-week OPD",
@@ -511,7 +514,7 @@ function normalizeAppointment(raw?: Record<string, unknown>): HomeAppointmentSec
     badges,
     card_title: String(raw.card_title ?? "Schedule your visit").trim() || "Schedule your visit",
     card_subtitle: String(raw.card_subtitle ?? "").trim(),
-    btn_text: String(raw.btn_text ?? "Book Appointment").trim() || "Book Appointment",
+    btn_text: btnText,
     phone,
     phone_href: phoneToHref(phone),
     whatsapp_text: String(raw.whatsapp_text ?? "WhatsApp us").trim() || "WhatsApp us",
