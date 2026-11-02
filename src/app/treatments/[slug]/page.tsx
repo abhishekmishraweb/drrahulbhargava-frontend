@@ -125,6 +125,7 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
         related_blogs: fromApi.related_blogs,
         published_at: fromApi.published_at,
         content_updated_at: fromApi.content_updated_at,
+        reviewer: fromApi.reviewer ?? null,
       }
     : fallback
       ? {
