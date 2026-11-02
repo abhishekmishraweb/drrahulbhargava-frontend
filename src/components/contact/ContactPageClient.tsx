@@ -26,7 +26,6 @@ export function ContactPageClient({ content }: { content: ContactPageContent }) 
     setPending(true);
     const form = e.currentTarget;
     const fd = new FormData(form);
-    const subject = String(fd.get("subject") || "").trim();
     const note = String(fd.get("message") || "").trim();
     const fileInput = form.querySelector<HTMLInputElement>('input[type="file"]');
     const reportFiles = fileInput?.files ? Array.from(fileInput.files).slice(0, 6) : [];
@@ -36,9 +35,8 @@ export function ContactPageClient({ content }: { content: ContactPageContent }) 
         name: String(fd.get("name") || "").trim(),
         email: String(fd.get("email") || "").trim(),
         phone: phoneFromForm(form),
-        subject: subject || "Contact form",
+        subject: "Contact form",
         message: note || undefined,
-        product_name: subject || undefined,
         source_page: "/contact",
         meta: { form: "contact_page", report_files: reportFiles.length },
       },
@@ -55,10 +53,6 @@ export function ContactPageClient({ content }: { content: ContactPageContent }) 
   const phoneCard = content.info_cards.find((c) => c.icon === "phone");
   const phoneHref = phoneCard?.href || site.phoneHref;
   const whatsappUrl = content.whatsapp_url || site.whatsapp;
-  const subjects =
-    content.form_subjects.length > 0
-      ? content.form_subjects
-      : ["Bone Marrow Transplant", "Leukemia", "Thalassemia", "Other"];
 
   return (
     <>
@@ -165,16 +159,6 @@ export function ContactPageClient({ content }: { content: ContactPageContent }) 
                   <input required name="name" placeholder="Patient name" className="field" />
                   <PhoneField placeholder="Phone" />
                   <input required name="email" type="email" placeholder="Email" className="field" />
-                  <select name="subject" className="field" defaultValue="" required>
-                    <option value="" disabled>
-                      Treatment interest
-                    </option>
-                    {subjects.map((t) => (
-                      <option key={t} value={t}>
-                        {t}
-                      </option>
-                    ))}
-                  </select>
                   <textarea
                     required
                     name="message"
