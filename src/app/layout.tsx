@@ -32,8 +32,12 @@ export async function generateMetadata(): Promise<Metadata> {
   const description =
     settings?.home_meta_description ||
     "Principal Director & Chief Hematology at Fortis Memorial Research Institute. 1,500+ stem cell transplants. CAR-T, leukemia, thalassemia and myeloma care.";
-  // Logo uploads are usually too small for LinkedIn — use generated 1200×630 card.
-  const images = ogImageEntry({ alt: title, preferGenerated: true });
+  // Prefer Admin → Settings → OG Image; fall back to generated 1200×630 card.
+  const images = ogImageEntry({
+    url: settings?.home_og_image,
+    alt: title,
+    preferGenerated: !settings?.home_og_image?.trim(),
+  });
   const verification = googleVerificationToken(settings?.google_search_console_code);
   const iconType = /\.svg($|\?)/i.test(favicon)
     ? "image/svg+xml"
