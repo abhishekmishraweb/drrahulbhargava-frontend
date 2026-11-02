@@ -1078,7 +1078,7 @@ export function HomePage({
           <div className="flex items-center justify-between gap-3">
             <h2 className="min-w-0 font-display text-2xl font-extrabold text-navy sm:text-3xl">{videoTestimonialsSection.title}</h2>
             <div className="flex shrink-0 items-center gap-3">
-              <Link href={videoTestimonialsSection.btn_link} className="btn-primary hidden px-4 py-2 text-xs sm:inline-flex sm:text-sm">
+              <Link href={videoTestimonialsSection.btn_link} className="btn-primary px-4 py-2 text-xs sm:text-sm">
                 <Quote className="h-4 w-4" /> {videoTestimonialsSection.btn_text} <ArrowRight className="h-4 w-4" />
               </Link>
               <div className="flex gap-2">
@@ -1128,9 +1128,6 @@ export function HomePage({
               </button>
             ))}
           </div>
-          <Link href={videoTestimonialsSection.btn_link} className="btn-primary mt-6 inline-flex px-5 py-2.5 text-sm sm:hidden">
-            <Quote className="h-4 w-4" /> {videoTestimonialsSection.btn_text} <ArrowRight className="h-4 w-4" />
-          </Link>
         </div>
       </section>
 
@@ -1157,7 +1154,7 @@ export function HomePage({
               <h2 className="mt-3 font-display text-2xl font-extrabold leading-snug text-navy sm:text-3xl">{patientStoriesSection.title}</h2>
             </div>
             <div className="mt-7 flex shrink-0 items-center gap-3">
-              <Link href={patientStoriesSection.btn_link} className="btn-primary hidden px-4 py-2 text-xs sm:inline-flex sm:text-sm">
+              <Link href={patientStoriesSection.btn_link} className="btn-primary px-4 py-2 text-xs sm:text-sm">
                 <Quote className="h-4 w-4" /> {patientStoriesSection.btn_text} <ArrowRight className="h-4 w-4" />
               </Link>
               <div className="flex gap-2 md:hidden">
@@ -1203,9 +1200,6 @@ export function HomePage({
               </blockquote>
             ))}
           </div>
-          <Link href={patientStoriesSection.btn_link} className="btn-primary mt-6 inline-flex px-5 py-2.5 text-sm sm:hidden">
-            <Quote className="h-4 w-4" /> {patientStoriesSection.btn_text} <ArrowRight className="h-4 w-4" />
-          </Link>
         </div>
       </section>
 
