@@ -25,7 +25,8 @@ export async function generateMetadata(): Promise<Metadata> {
   const settings = await fetchSiteSettings();
   const name = settings?.site_name || "Dr. Rahul Bhargava";
   const origin = siteOrigin();
-  const favicon = settings?.favicon?.trim() || "/favicon.png";
+  const adminFavicon = settings?.favicon?.trim() || "";
+  const favicon = adminFavicon || "/favicon.png";
   const title =
     settings?.home_meta_title || `${name} | Hematologist & BMT | Fortis Gurugram`;
   const description =
@@ -34,6 +35,11 @@ export async function generateMetadata(): Promise<Metadata> {
   // Logo uploads are usually too small for LinkedIn — use generated 1200×630 card.
   const images = ogImageEntry({ alt: title, preferGenerated: true });
   const verification = googleVerificationToken(settings?.google_search_console_code);
+  const iconType = /\.svg($|\?)/i.test(favicon)
+    ? "image/svg+xml"
+    : /\.jpe?g($|\?)/i.test(favicon)
+      ? "image/jpeg"
+      : "image/png";
 
   return {
     metadataBase: new URL(origin),
@@ -47,11 +53,16 @@ export async function generateMetadata(): Promise<Metadata> {
       canonical: origin,
     },
     icons: {
-      icon: [
-        { url: "/favicon.svg", type: "image/svg+xml" },
-        { url: favicon, type: "image/png" },
-        { url: favicon, sizes: "32x32", type: "image/png" },
-      ],
+      // Admin Settings favicon first — do not let fallback SVG override it.
+      icon: adminFavicon
+        ? [
+            { url: favicon, type: iconType },
+            { url: favicon, sizes: "32x32", type: iconType },
+          ]
+        : [
+            { url: "/favicon.svg", type: "image/svg+xml" },
+            { url: "/favicon.png", type: "image/png", sizes: "32x32" },
+          ],
       shortcut: favicon,
       apple: favicon,
     },
