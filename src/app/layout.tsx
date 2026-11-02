@@ -4,7 +4,7 @@ import { Footer } from "@/components/Footer";
 import { GoogleTranslate } from "@/components/GoogleTranslate";
 import { Header } from "@/components/Header";
 import { fetchSiteSettings } from "@/lib/api";
-import { googleVerificationToken, siteOrigin, splitKeywords } from "@/lib/seo";
+import { googleVerificationToken, ogImageEntry, siteOrigin, splitKeywords } from "@/lib/seo";
 import type { Metadata } from "next";
 import { Nunito, Outfit } from "next/font/google";
 import "./globals.css";
@@ -24,25 +24,33 @@ const body = Nunito({
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await fetchSiteSettings();
   const name = settings?.site_name || "Dr. Rahul Bhargava";
+  const origin = siteOrigin();
   const favicon = settings?.favicon?.trim() || "/favicon.png";
   const title =
     settings?.home_meta_title || `${name} | Hematologist & BMT | Fortis Gurugram`;
   const description =
     settings?.home_meta_description ||
     "Principal Director & Chief Hematology at Fortis Memorial Research Institute. 1,500+ stem cell transplants. CAR-T, leukemia, thalassemia and myeloma care.";
-  const image = settings?.home_og_image || undefined;
+  // Logo uploads are usually too small for LinkedIn — use generated 1200×630 card.
+  const images = ogImageEntry({ alt: title, preferGenerated: true });
   const verification = googleVerificationToken(settings?.google_search_console_code);
 
   return {
-    metadataBase: new URL(siteOrigin()),
+    metadataBase: new URL(origin),
     title: {
       default: title,
       template: `%s | ${name}`,
     },
     description,
     keywords: splitKeywords(settings?.home_meta_keywords),
+    alternates: {
+      canonical: origin,
+    },
     icons: {
-      icon: [{ url: favicon, type: "image/png" }],
+      icon: [
+        { url: favicon, type: "image/png" },
+        { url: favicon, sizes: "32x32", type: "image/png" },
+      ],
       shortcut: favicon,
       apple: favicon,
     },
@@ -50,13 +58,19 @@ export async function generateMetadata(): Promise<Metadata> {
       title,
       description,
       type: "website",
-      images: image ? [{ url: image }] : undefined,
+      url: origin,
+      siteName: name,
+      locale: "en_IN",
+      images,
     },
     twitter: {
-      card: image ? "summary_large_image" : "summary",
+      card: "summary_large_image",
       title,
       description,
-      images: image ? [image] : undefined,
+      images: images.map((img) => (typeof img === "string" ? img : String(img.url))),
+    },
+    other: {
+      "theme-color": "#156f9f",
     },
     verification: verification ? { google: verification } : undefined,
   };
