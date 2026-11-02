@@ -3,6 +3,7 @@ import { ContentCta } from "@/components/ContentCta";
 import { JsonLd } from "@/components/JsonLd";
 import { TreatmentConsult, TreatmentFaqs } from "@/components/TreatmentConsult";
 import { BlogsCarousel } from "@/components/BlogsCarousel";
+import { GalleryCarousel } from "@/components/GalleryCarousel";
 import { ReviewsCarousel } from "@/components/ReviewsCarousel";
 import { ReviewerBox } from "@/components/ReviewerBox";
 import { TableOfContents } from "@/components/TableOfContents";
@@ -230,42 +231,11 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
 
   const galleryBlock =
     page && page.media_gallery.length > 0 ? (
-      <section id="gallery" className="mt-10 scroll-mt-28">
-        <h2 className="font-display text-xl font-extrabold text-navy sm:text-2xl">
-          {page.gallery_heading || "Hospital, certificates & patients"}
-        </h2>
-        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {page.media_gallery.map((item) => {
-            const img = (
-              <Image
-                src={item.image}
-                alt={item.title || title}
-                width={800}
-                height={600}
-                className="h-48 w-full object-cover"
-                unoptimized
-              />
-            );
-            return (
-              <figure
-                key={item.image + item.title}
-                className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
-              >
-                {item.link ? (
-                  <a href={item.link} target="_blank" rel="noopener noreferrer">
-                    {img}
-                  </a>
-                ) : (
-                  img
-                )}
-                {item.title ? (
-                  <figcaption className="px-3 py-2 text-sm font-medium text-slate-600">{item.title}</figcaption>
-                ) : null}
-              </figure>
-            );
-          })}
-        </div>
-      </section>
+      <GalleryCarousel
+        id="gallery"
+        title={page.gallery_heading || "Hospital, certificates & patients"}
+        items={page.media_gallery}
+      />
     ) : null;
 
   return (
