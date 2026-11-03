@@ -185,7 +185,7 @@ export function Header({ settings }: { settings?: SiteSettings | null }) {
             </Link>
           </nav>
 
-          <div className="flex items-center justify-end gap-2">
+          <div className="flex items-center justify-end gap-1 sm:gap-2">
             <div className="relative" ref={langBox}>
               <button
                 type="button"
@@ -194,13 +194,13 @@ export function Header({ settings }: { settings?: SiteSettings | null }) {
                   setSearchOpen(false);
                   setOpen(false);
                 }}
-                className="notranslate flex cursor-pointer items-center gap-1.5 rounded-full border border-slate-200 bg-white px-2 py-1.5 text-sm font-semibold text-navy hover:border-teal sm:px-3"
+                className="notranslate flex h-7 cursor-pointer items-center gap-1 rounded-full border border-slate-200 bg-white px-1.5 py-1 text-xs font-semibold text-navy hover:border-teal sm:h-9 sm:gap-1.5 sm:px-3 sm:py-1.5 sm:text-sm"
                 aria-label="Language"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={`https://flagcdn.com/w20/${lang.iso}.png`} alt="" width={20} height={14} className="h-3.5 w-5 rounded-[2px] object-cover" />
+                <img src={`https://flagcdn.com/w20/${lang.iso}.png`} alt="" width={18} height={12} className="h-3 w-4 rounded-[2px] object-cover sm:h-3.5 sm:w-5" />
                 <span className="hidden uppercase sm:inline">{lang.code}</span>
-                <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
+                <ChevronDown className="h-3 w-3 text-slate-400 sm:h-3.5 sm:w-3.5" />
               </button>
               {langOpen && (
                 <ul className="notranslate absolute right-0 z-[120] mt-2 w-44 overflow-hidden rounded-2xl border border-slate-100 bg-white py-1 shadow-xl">
@@ -228,13 +228,13 @@ export function Header({ settings }: { settings?: SiteSettings | null }) {
                 setSearchOpen(true);
                 setLangOpen(false);
               }}
-              className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-slate-200 text-navy hover:border-teal hover:text-teal sm:h-10 sm:w-10"
+              className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-full border border-slate-200 text-navy hover:border-teal hover:text-teal sm:h-10 sm:w-10"
               aria-label="Search"
             >
-              <Search className="h-4 w-4" />
+              <Search className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </button>
-            <button type="button" className="rounded-lg p-2 lg:hidden" onClick={() => setOpen((v) => !v)} aria-label="Menu">
-              {open ? <X /> : <Menu />}
+            <button type="button" className="rounded-lg p-1 lg:hidden" onClick={() => setOpen((v) => !v)} aria-label="Menu">
+              {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
           </div>
         </div>
