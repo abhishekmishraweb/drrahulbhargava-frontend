@@ -177,11 +177,12 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
   const title = page?.pageTitle ?? t!.title;
   const crumbs = [{ href: "/treatments", label: "Treatments" }, { label: page?.navTitle ?? t!.title }];
   const banner = page?.image || `/images/treatments/${slug}.png`;
-  const relatedBlogSlugs = page?.related_blogs ?? [];
-  const relatedBlogs =
-    relatedBlogSlugs.length > 0
-      ? allBlogs.filter((b) => relatedBlogSlugs.includes(b.slug))
-      : [];
+  // Bidirectional: treatment.related_blogs + blogs that tagged this treatment
+  const relatedBlogSlugs = new Set<string>([...(page?.related_blogs ?? [])]);
+  for (const b of allBlogs) {
+    if (b.related_treatments?.includes(slug)) relatedBlogSlugs.add(b.slug);
+  }
+  const relatedBlogs = allBlogs.filter((b) => relatedBlogSlugs.has(b.slug));
   const publishedLabel = formatPageDate(page?.published_at);
   const updatedLabel = formatPageDate(page?.content_updated_at);
 

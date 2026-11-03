@@ -1619,6 +1619,7 @@ export type BlogListItem = {
   author: string;
   date: string;
   published_at: string;
+  related_treatments: string[];
 };
 
 export type HomeFeaturedBlog = {
@@ -1668,6 +1669,12 @@ function mapBlogListItem(data: Record<string, unknown>): BlogListItem | null {
       ? String((data.author as Record<string, unknown>).name ?? "").trim()
       : "";
 
+  const related_treatments = Array.isArray(data.related_treatments)
+    ? data.related_treatments.map((s) => String(s ?? "").trim()).filter(Boolean)
+    : typeof data.related_treatments === "string" && data.related_treatments.trim()
+      ? [data.related_treatments.trim()]
+      : [];
+
   return {
     id: Number(data.id ?? 0),
     slug: slug || String(data.id ?? ""),
@@ -1677,6 +1684,7 @@ function mapBlogListItem(data: Record<string, unknown>): BlogListItem | null {
     author: authorRelation || String(data.author_name ?? "Admin").trim() || "Admin",
     date: formatBlogDate(data.published_at ?? data.created_at),
     published_at: String(data.published_at ?? data.created_at ?? "").trim(),
+    related_treatments,
   };
 }
 

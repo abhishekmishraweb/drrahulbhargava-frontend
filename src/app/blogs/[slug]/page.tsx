@@ -56,11 +56,9 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
 
   const { title, image, date, author } = fromApi;
 
+  // Only tagged treatments (no generic fallback)
   const relatedSlugs = fromApi.related_treatments ?? [];
-  const related =
-    relatedSlugs.length > 0
-      ? navTreatments.filter((t) => relatedSlugs.includes(t.slug))
-      : navTreatments.slice(0, 4);
+  const related = navTreatments.filter((t) => relatedSlugs.includes(t.slug));
 
   const blogToc = [
     ...(fromApi.short_content || fromApi.excerpt
