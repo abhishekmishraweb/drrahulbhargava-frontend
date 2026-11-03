@@ -17,18 +17,23 @@ export function TreatmentConsult({ defaultSlug }: { defaultSlug: string }) {
     setPending(true);
     const form = e.currentTarget;
     const fd = new FormData(form);
-    const slug = String(fd.get("treatment") || defaultSlug).trim();
-    const treatment = treatments.find((t) => t.slug === slug);
-    const title = treatment?.title || slug;
+    const condition = String(fd.get("condition") || "").trim();
+    const pageTreatment = treatments.find((t) => t.slug === defaultSlug);
+    const pageTitle = pageTreatment?.title || defaultSlug;
     const result = await submitEnquiry({
       type: "treatment",
       name: String(fd.get("name") || "").trim(),
       email: String(fd.get("email") || "").trim(),
       phone: phoneFromForm(form),
-      subject: `Consultation: ${title}`,
-      product_name: title,
+      subject: `Consultation: ${pageTitle}`,
+      message: condition,
+      product_name: pageTitle,
       source_page: typeof window !== "undefined" ? window.location.pathname : "/",
-      meta: { treatment_slug: slug, form: "treatment_consult" },
+      meta: {
+        treatment_slug: defaultSlug,
+        medical_condition: condition,
+        form: "treatment_consult",
+      },
     });
     setPending(false);
     if (!result.ok) {
@@ -50,13 +55,13 @@ export function TreatmentConsult({ defaultSlug }: { defaultSlug: string }) {
           <input required name="name" placeholder="Patient Name" className="field" />
           <input required name="email" type="email" placeholder="Email Address" className="field" />
           <PhoneField placeholder="Phone" />
-          <select required name="treatment" className="field" defaultValue={defaultSlug}>
-            {treatments.map((t) => (
-              <option key={t.slug} value={t.slug}>
-                {t.title}
-              </option>
-            ))}
-          </select>
+          <textarea
+            required
+            name="condition"
+            rows={4}
+            placeholder="Describe your medical condition"
+            className="field min-h-[96px] resize-y"
+          />
           {error ? <p className="text-sm text-red-600">{error}</p> : null}
           <button type="submit" disabled={pending} className="btn-primary w-full py-3.5 text-sm disabled:opacity-60">
             <Send className="h-4 w-4" /> {pending ? "Sending…" : "Submit"}
