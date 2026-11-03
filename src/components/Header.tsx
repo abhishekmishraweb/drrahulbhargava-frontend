@@ -28,8 +28,8 @@ export function Header({ settings }: { settings?: SiteSettings | null }) {
   const hours = settings?.working_hours || site.hours;
   const ctaText = settings?.header_cta_text || "Get free medical consultation";
   const siteName = settings?.site_name || site.name;
-  const logoTagline = settings?.logo_tagline || "Hematology · BMT";
-  const logoTaglineLine2 = settings?.logo_tagline_line2 || "";
+  const logoTagline = settings?.logo_tagline || "Hematologist";
+  const logoTaglineLine2 = settings?.logo_tagline_line2 || "Hemato-Oncologist";
   const headerLogo = settings?.header_logo || "";
 
 

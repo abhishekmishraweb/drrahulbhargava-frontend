@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
-/* Global Onco Care palette: medical blue #156F9F + lime #8BC34A */
+/* Brand palette from logo: blue #156F9F + green #95C859 + charcoal #424242 */
 @theme inline {
   --color-navy: #156f9f;
   --color-navy-deep: #0e4560;
-  --color-teal: #8bc34a;
-  --color-teal-dark: #689f38;
-  --color-amber: #8bc34a;
+  --color-teal: #95c859;
+  --color-teal-dark: #7aab3f;
+  --color-amber: #95c859;
   --color-soft: #f3f8f1;
   --color-mist: #e8f3e4;
 }

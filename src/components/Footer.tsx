@@ -43,8 +43,8 @@ export async function Footer({ settings }: { settings?: SiteSettings | null }) {
   const treatments = fromApi.length > 0 ? fromApi : navTreatments;
 
   const siteName = settings?.site_name || site.name;
-  const logoTagline = settings?.logo_tagline || "Hematology · BMT";
-  const logoTaglineLine2 = settings?.logo_tagline_line2 || "";
+  const logoTagline = settings?.logo_tagline || "Hematologist";
+  const logoTaglineLine2 = settings?.logo_tagline_line2 || "Hemato-Oncologist";
   const about = settings?.footer_about || defaultAbout;
   const copyright =
     settings?.footer_copyright ||
