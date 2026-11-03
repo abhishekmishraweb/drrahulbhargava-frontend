@@ -27,7 +27,7 @@ export function Fab({ settings }: { settings?: SiteSettings | null }) {
           type="button"
           aria-label="Back to top"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed bottom-4 right-3 z-[60] flex h-11 w-11 items-center justify-center rounded-full bg-navy/75 text-white shadow-xl backdrop-blur-sm hover:bg-navy sm:bottom-5 sm:right-5 sm:h-12 sm:w-12"
+          className="fixed bottom-4 right-3 z-[60] flex h-11 w-11 items-center justify-center rounded-full border border-white/50 bg-[rgba(21,111,159,0.35)] text-navy shadow-[0_8px_24px_rgba(21,111,159,0.18)] backdrop-blur-md hover:bg-[rgba(21,111,159,0.55)] hover:text-white sm:bottom-5 sm:right-5 sm:h-12 sm:w-12"
         >
           <ChevronUp className="h-6 w-6" />
         </button>
@@ -66,7 +66,7 @@ export function Fab({ settings }: { settings?: SiteSettings | null }) {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="flex h-14 w-14 items-center justify-center rounded-full bg-navy-deep/80 text-white shadow-xl shadow-navy/30 backdrop-blur-sm hover:bg-navy-deep"
+        className="flex h-14 w-14 items-center justify-center rounded-full border border-white/50 bg-[rgba(14,69,96,0.4)] text-navy shadow-[0_8px_24px_rgba(14,69,96,0.2)] backdrop-blur-md hover:bg-[rgba(14,69,96,0.6)] hover:text-white"
         aria-label="Quick actions"
       >
         {open ? <X /> : <Plus />}
