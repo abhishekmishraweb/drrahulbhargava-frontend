@@ -37,9 +37,9 @@ export function TableOfContents({ items, title = "Table of Contents" }: Props) {
         aria-expanded={open}
         aria-controls="page-toc"
         onClick={() => setOpen(true)}
-        className="fixed left-3 top-1/2 z-[80] flex h-12 w-12 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-white/50 bg-[rgba(21,111,159,0.35)] text-navy shadow-[0_8px_24px_rgba(21,111,159,0.18)] backdrop-blur-md transition hover:bg-[rgba(21,111,159,0.55)] hover:text-white sm:left-5 sm:h-14 sm:w-14"
+        className="fixed left-2.5 top-1/2 z-[80] flex h-9 w-9 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-white/55 bg-[rgba(21,111,159,0.32)] text-navy shadow-[0_6px_18px_rgba(21,111,159,0.16)] backdrop-blur-md transition hover:bg-[rgba(21,111,159,0.55)] hover:text-white sm:left-5 sm:h-11 sm:w-11"
       >
-        <List className="h-5 w-5 sm:h-6 sm:w-6" />
+        <List className="h-4 w-4 sm:h-5 sm:w-5" />
       </button>
 
       <div
