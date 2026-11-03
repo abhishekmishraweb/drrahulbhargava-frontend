@@ -7,17 +7,17 @@ type Props = {
   showActions?: boolean;
 };
 
-/** Dark CTA card used on blog & treatment pages. */
+/** Soft light-blue CTA card used on blog & treatment pages. */
 export function ContentCta({ html, className = "", showActions = true }: Props) {
   const value = (html || "").trim();
   if (!value) return null;
 
   return (
     <aside
-      className={`overflow-hidden rounded-2xl bg-[#124a36] p-5 text-white shadow-[0_12px_40px_rgba(18,74,54,0.28)] sm:rounded-3xl sm:p-6 ${className}`}
+      className={`overflow-hidden rounded-2xl border border-navy/10 bg-[#e3f2f9] p-5 text-navy shadow-[0_12px_40px_rgba(21,111,159,0.12)] sm:rounded-3xl sm:p-6 ${className}`}
     >
       <div
-        className="cta-medigence text-[15px] leading-relaxed text-white/90 md:text-[16px] [&_a]:font-semibold [&_a]:text-[#86efac] [&_a]:underline [&_a]:underline-offset-2 hover:[&_a]:text-white [&_h2]:mt-0 [&_h2]:font-display [&_h2]:text-xl [&_h2]:font-extrabold [&_h2]:text-white sm:[&_h2]:text-2xl [&_h3]:mt-3 [&_h3]:font-display [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-white [&_li]:mt-1 [&_p]:mt-2 [&_p:first-child]:mt-0 [&_strong]:text-white [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:ps-5"
+        className="cta-medigence text-[15px] leading-relaxed text-navy/85 md:text-[16px] [&_a]:font-semibold [&_a]:text-navy [&_a]:underline [&_a]:underline-offset-2 hover:[&_a]:text-teal-dark [&_h2]:mt-0 [&_h2]:font-display [&_h2]:text-xl [&_h2]:font-extrabold [&_h2]:text-navy sm:[&_h2]:text-2xl [&_h3]:mt-3 [&_h3]:font-display [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-navy [&_li]:mt-1 [&_p]:mt-2 [&_p:first-child]:mt-0 [&_strong]:text-navy [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:ps-5"
         dangerouslySetInnerHTML={{ __html: value }}
       />
 
@@ -34,7 +34,7 @@ export function ContentCta({ html, className = "", showActions = true }: Props) 
           </a>
           <Link
             href="/contact"
-            className="inline-flex flex-1 items-center justify-center rounded-lg bg-white/15 px-3 py-2.5 text-sm font-semibold text-white ring-1 ring-white/25 transition hover:bg-white/25"
+            className="inline-flex flex-1 items-center justify-center rounded-lg bg-navy px-3 py-2.5 text-sm font-semibold text-white transition hover:bg-navy-deep"
           >
             Contact us
           </Link>
