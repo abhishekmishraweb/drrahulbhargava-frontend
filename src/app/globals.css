@@ -89,6 +89,25 @@ input[type="button"] {
   margin-inline-start: 0.25rem;
 }
 
+/* HTML tables pasted in editor content */
+.prose-blog table,
+.prose-treatment table {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 1rem;
+  background: #fff;
+}
+
+.prose-blog th,
+.prose-treatment th,
+.prose-blog td,
+.prose-treatment td {
+  white-space: nowrap;
+}
+
 .dots {
   background-image: radial-gradient(rgba(14, 69, 96, 0.08) 1.2px, transparent 1.2px);
   background-size: 22px 22px;

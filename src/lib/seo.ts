@@ -73,7 +73,8 @@ export function pageMetadata(input: {
   });
 
   return {
-    title,
+    // Use absolute title so layout does not append site name.
+    title: title ? { absolute: title } : undefined,
     description,
     keywords,
     alternates: url ? { canonical: url } : undefined,

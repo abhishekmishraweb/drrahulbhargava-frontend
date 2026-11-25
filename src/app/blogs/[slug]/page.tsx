@@ -17,7 +17,7 @@ import { notFound } from "next/navigation";
 export const instant = false;
 
 const prose =
-  "prose-blog max-w-none text-[15px] leading-relaxed text-slate-600 md:text-[16px] [&_a]:text-teal [&_h2]:mt-8 [&_h2]:font-display [&_h2]:text-2xl [&_h2]:font-extrabold [&_h2]:text-navy [&_h3]:mt-6 [&_h3]:font-display [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-navy [&_h4]:mt-5 [&_h4]:font-display [&_h4]:text-base [&_h4]:font-bold [&_h4]:text-navy [&_p]:mt-4 [&_strong]:font-bold [&_strong]:text-navy";
+  "prose-blog max-w-none text-[15px] leading-relaxed text-slate-600 md:text-[16px] [&_a]:text-teal [&_h2]:mt-8 [&_h2]:font-display [&_h2]:text-xl [&_h2]:font-extrabold [&_h2]:text-navy sm:[&_h2]:text-2xl [&_h3]:mt-6 [&_h3]:font-display [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-navy [&_h4]:mt-5 [&_h4]:font-display [&_h4]:text-base [&_h4]:font-bold [&_h4]:text-navy [&_p]:mt-4 [&_strong]:font-bold [&_strong]:text-navy [&_table]:mt-6 [&_table]:w-full [&_table]:min-w-[520px] [&_table]:border-collapse [&_table]:text-sm [&_th]:bg-navy [&_th]:px-4 [&_th]:py-3 [&_th]:text-left [&_th]:font-semibold [&_th]:text-white [&_td]:border-t [&_td]:border-slate-200 [&_td]:px-4 [&_td]:py-3 [&_td]:text-slate-600";
 
 function HtmlBlock({ html, className = "" }: { html: string; className?: string }) {
   if (!html.trim()) return null;
@@ -94,6 +94,10 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
       <TableOfContents items={blogToc} />
 
       <div className="mx-auto max-w-4xl space-y-8 px-4 py-6 sm:space-y-10 sm:px-6 sm:py-8 lg:px-8 lg:py-12">
+        <h1 className="text-center font-display text-[1.45rem] font-extrabold leading-snug text-navy sm:text-4xl lg:text-[2.4rem]">
+          {title}
+        </h1>
+
         <div className="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-100 sm:rounded-3xl">
           <Image
             src={image}
@@ -106,10 +110,6 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
             unoptimized
           />
         </div>
-
-        <h1 className="font-display text-[1.45rem] font-extrabold leading-snug text-navy sm:text-4xl lg:text-[2.4rem]">
-          {title}
-        </h1>
 
         <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-slate-500">
           <span className="inline-flex items-center gap-1.5">
@@ -157,7 +157,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
 
         {fromApi.faqs.length > 0 ? (
           <section id="faqs" className="scroll-mt-28">
-            <h2 className="mb-4 font-display text-2xl font-extrabold text-navy">{fromApi.faqs_heading}</h2>
+            <h2 className="mb-4 font-display text-xl font-extrabold text-navy sm:text-2xl">{fromApi.faqs_heading}</h2>
             <TreatmentFaqs faqs={fromApi.faqs} />
           </section>
         ) : null}

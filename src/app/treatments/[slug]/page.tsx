@@ -21,7 +21,7 @@ import { notFound } from "next/navigation";
 export const instant = false;
 
 const prose =
-  "prose-treatment max-w-none text-[15px] leading-relaxed text-slate-600 md:text-[16px] [&_a]:text-teal [&_h2]:mt-8 [&_h2]:font-display [&_h2]:text-xl [&_h2]:font-extrabold [&_h2]:text-navy sm:[&_h2]:text-2xl [&_h3]:mt-6 [&_h3]:font-display [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-navy [&_h4]:mt-5 [&_h4]:font-display [&_h4]:text-base [&_h4]:font-bold [&_h4]:text-navy [&_p]:mt-3 [&_p:first-child]:mt-0 [&_strong]:font-bold [&_strong]:text-navy";
+  "prose-treatment max-w-none text-[15px] leading-relaxed text-slate-600 md:text-[16px] [&_a]:text-teal [&_h2]:mt-8 [&_h2]:font-display [&_h2]:text-xl [&_h2]:font-extrabold [&_h2]:text-navy sm:[&_h2]:text-2xl [&_h3]:mt-6 [&_h3]:font-display [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-navy [&_h4]:mt-5 [&_h4]:font-display [&_h4]:text-base [&_h4]:font-bold [&_h4]:text-navy [&_p]:mt-3 [&_p:first-child]:mt-0 [&_strong]:font-bold [&_strong]:text-navy [&_table]:mt-6 [&_table]:w-full [&_table]:min-w-[520px] [&_table]:border-collapse [&_table]:text-sm [&_th]:bg-navy [&_th]:px-4 [&_th]:py-3 [&_th]:text-left [&_th]:font-semibold [&_th]:text-white [&_td]:border-t [&_td]:border-slate-200 [&_td]:px-4 [&_td]:py-3 [&_td]:text-slate-600";
 
 function HtmlBlock({ html, className = "" }: { html?: string; className?: string }) {
   const value = (html || "").trim();
@@ -246,7 +246,10 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
       <TableOfContents items={tocItems} />
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-12">
         <div className="mx-auto max-w-3xl">
-          <div className="mb-5 overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-100 sm:mb-6 sm:rounded-3xl">
+          <h1 className="mb-5 text-center font-display text-[1.45rem] font-extrabold leading-snug text-navy sm:mb-6 sm:text-4xl lg:text-[2.4rem]">
+            {title}
+          </h1>
+          <div className="mb-6 overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-100 sm:rounded-3xl">
             <Image
               src={banner}
               alt={title}
@@ -258,9 +261,6 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
               unoptimized
             />
           </div>
-          <h1 className="mb-6 font-display text-[1.45rem] font-extrabold leading-snug text-navy sm:text-4xl lg:text-[2.4rem]">
-            {title}
-          </h1>
 
           {page ? (
             <>
@@ -359,22 +359,22 @@ export default async function TreatmentPage({ params }: { params: Promise<{ slug
                   {page.table.intro ? (
                     <HtmlBlock html={page.table.intro} className="mt-3" />
                   ) : null}
-                  <div className={`${page.table.caption || page.table.intro ? "mt-4" : ""} overflow-x-auto rounded-2xl border border-slate-200`}>
-                    <table className="w-full min-w-[560px] text-left text-sm">
+                  <div className={`${page.table.caption || page.table.intro ? "mt-4" : ""} overflow-x-auto rounded-2xl border border-slate-200 shadow-sm`}>
+                    <table className="w-full min-w-[560px] border-collapse text-left text-sm">
                       <thead className="bg-navy text-white">
                         <tr>
                           {page.table.headers.map((h) => (
-                            <th key={h} className="px-4 py-3 font-semibold">
+                            <th key={h} className="px-4 py-3.5 font-semibold first:rounded-tl-2xl last:rounded-tr-2xl">
                               {h}
                             </th>
                           ))}
                         </tr>
                       </thead>
                       <tbody>
-                        {page.table.rows.map((row) => (
-                          <tr key={row[0]} className="odd:bg-white even:bg-soft">
-                            {row.map((cell) => (
-                              <td key={cell} className="px-4 py-3 text-slate-600">
+                        {page.table.rows.map((row, ri) => (
+                          <tr key={`${row[0]}-${ri}`} className="odd:bg-white even:bg-soft">
+                            {row.map((cell, ci) => (
+                              <td key={`${ri}-${ci}`} className="border-t border-slate-200 px-4 py-3.5 text-slate-600">
                                 {cell}
                               </td>
                             ))}
