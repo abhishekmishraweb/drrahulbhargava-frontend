@@ -30,7 +30,9 @@ function CtaBlock({ html }: { html: string }) {
 
 export async function generateStaticParams() {
   const fromApi = await fetchBlogs();
-  return fromApi.map((b) => ({ slug: b.slug }));
+  const params = fromApi.map((b) => ({ slug: b.slug })).filter((p) => p.slug);
+  // Cache Components requires at least one result at build time.
+  return params.length ? params : [{ slug: "_placeholder" }];
 }
 
 export async function generateMetadata({

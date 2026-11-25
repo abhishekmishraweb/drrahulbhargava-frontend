@@ -47,9 +47,10 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     metadataBase: new URL(origin),
-    // Absolute page titles only — do not append " | Dr. Rahul Bhargava" automatically.
+    // "%s" only — do not append " | Dr. Rahul Bhargava" to page titles.
     title: {
       default: title,
+      template: "%s",
     },
     description,
     keywords: splitKeywords(settings?.home_meta_keywords),
