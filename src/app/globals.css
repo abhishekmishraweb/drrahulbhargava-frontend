@@ -91,23 +91,68 @@ input[type="button"] {
   margin-inline-start: 0.25rem;
 }
 
-/* HTML tables pasted in editor content */
+/* Rich-text editor tables (TinyMCE / Summernote) */
+.prose-blog,
+.prose-treatment {
+  overflow-x: auto;
+}
+
 .prose-blog table,
 .prose-treatment table {
-  display: block;
   width: 100%;
-  max-width: 100%;
-  overflow-x: auto;
-  border: 1px solid #e2e8f0;
-  border-radius: 1rem;
+  margin: 1.25rem 0;
+  border-collapse: collapse;
+  border: 1px solid #dbe3ea;
+  border-radius: 0.75rem;
   background: #fff;
+  font-size: 0.9rem;
+  line-height: 1.45;
 }
 
 .prose-blog th,
 .prose-treatment th,
 .prose-blog td,
 .prose-treatment td {
-  white-space: nowrap;
+  border: 1px solid #dbe3ea;
+  padding: 0.7rem 0.9rem;
+  text-align: left;
+  vertical-align: top;
+  color: #475569;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.prose-blog thead th,
+.prose-treatment thead th,
+.prose-blog tr:first-child > th,
+.prose-treatment tr:first-child > th {
+  background: #156f9f;
+  color: #fff;
+  font-weight: 700;
+}
+
+.prose-blog thead th strong,
+.prose-treatment thead th strong,
+.prose-blog tr:first-child > th strong,
+.prose-treatment tr:first-child > th strong,
+.prose-blog thead th a,
+.prose-treatment thead th a,
+.prose-blog tr:first-child > th a,
+.prose-treatment tr:first-child > th a {
+  color: #fff;
+}
+
+.prose-blog tbody tr:nth-child(even) td,
+.prose-treatment tbody tr:nth-child(even) td,
+.prose-blog tbody tr:nth-child(even) th,
+.prose-treatment tbody tr:nth-child(even) th {
+  background: #f3f8f1;
+}
+
+.prose-blog tbody tr:first-child > th,
+.prose-treatment tbody tr:first-child > th {
+  background: #156f9f;
+  color: #fff;
 }
 
 .dots {

@@ -17,7 +17,7 @@ import { notFound } from "next/navigation";
 export const instant = false;
 
 const prose =
-  "prose-blog max-w-none text-[15px] leading-relaxed text-slate-600 md:text-[16px] [&_a]:text-teal [&_h2]:mt-8 [&_h2]:font-display [&_h2]:text-xl [&_h2]:font-extrabold [&_h2]:text-navy sm:[&_h2]:text-2xl [&_h3]:mt-6 [&_h3]:font-display [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-navy [&_h4]:mt-5 [&_h4]:font-display [&_h4]:text-base [&_h4]:font-bold [&_h4]:text-navy [&_p]:mt-4 [&_strong]:font-bold [&_strong]:text-navy [&_table]:mt-6 [&_table]:w-full [&_table]:min-w-[520px] [&_table]:border-collapse [&_table]:text-sm [&_th]:bg-navy [&_th]:px-4 [&_th]:py-3 [&_th]:text-left [&_th]:font-semibold [&_th]:text-white [&_td]:border-t [&_td]:border-slate-200 [&_td]:px-4 [&_td]:py-3 [&_td]:text-slate-600";
+  "prose-blog max-w-none text-[15px] leading-relaxed text-slate-600 md:text-[16px] [&_a]:text-teal [&_h2]:mt-8 [&_h2]:font-display [&_h2]:text-xl [&_h2]:font-extrabold [&_h2]:text-navy sm:[&_h2]:text-2xl [&_h3]:mt-6 [&_h3]:font-display [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-navy [&_h4]:mt-5 [&_h4]:font-display [&_h4]:text-base [&_h4]:font-bold [&_h4]:text-navy [&_p]:mt-4 [&_strong]:font-bold [&_strong]:text-navy";
 
 function HtmlBlock({ html, className = "" }: { html: string; className?: string }) {
   if (!html.trim()) return null;
