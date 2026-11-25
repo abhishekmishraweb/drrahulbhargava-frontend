@@ -1,6 +1,7 @@
 "use client";
 
 import { PageHero } from "@/components/Breadcrumb";
+import { ConsultFormHeader } from "@/components/ConsultFormHeader";
 import { PhoneField } from "@/components/PhoneField";
 import { phoneFromForm, submitEnquiry, type ContactPageContent } from "@/lib/api";
 import { site } from "@/lib/data";
@@ -153,8 +154,11 @@ export function ContactPageClient({ content }: { content: ContactPageContent }) 
                 </div>
               ) : (
                 <form onSubmit={onSubmit} className="space-y-3">
-                  <h2 className="font-display text-2xl font-bold text-navy">{content.form_heading}</h2>
-                  {content.form_intro ? <p className="text-sm text-slate-500">{content.form_intro}</p> : null}
+                  <ConsultFormHeader
+                    title="Request a Consultation with Dr. Rahul Bhargava"
+                    subtitle="Free · No obligation · Strictly confidential"
+                    badge="100% FREE"
+                  />
                   <input required name="name" placeholder="Patient name" className="field" />
                   <PhoneField placeholder="Phone" />
                   <textarea

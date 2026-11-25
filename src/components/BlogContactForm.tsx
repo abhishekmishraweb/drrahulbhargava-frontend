@@ -1,5 +1,6 @@
 "use client";
 
+import { ConsultFormHeader } from "@/components/ConsultFormHeader";
 import { PhoneField } from "@/components/PhoneField";
 import { phoneFromForm, submitEnquiry } from "@/lib/api";
 import { Send } from "lucide-react";
@@ -37,8 +38,7 @@ export function BlogContactForm({ blogSlug }: { blogSlug: string }) {
 
   return (
     <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
-      <h2 className="font-display text-xl font-extrabold text-navy sm:text-2xl">Get in touch</h2>
-      <p className="mt-1 text-sm text-slate-500">Share your details and our team will respond shortly.</p>
+      <ConsultFormHeader />
       {ok ? (
         <p className="mt-4 rounded-2xl bg-teal/10 p-4 text-sm font-medium text-navy">
           Thank you. We have received your message.

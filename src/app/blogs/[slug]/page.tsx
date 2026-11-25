@@ -69,7 +69,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
           },
         ]
       : []),
-    { href: "#contact", label: "Get in touch" },
+    { href: "#contact", label: "Request a Consultation" },
     ...(fromApi.content
       ? [{ href: "#content", label: tocLabelFromHtml(fromApi.content, "Main content") }]
       : []),

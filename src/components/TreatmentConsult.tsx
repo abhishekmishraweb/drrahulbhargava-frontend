@@ -1,5 +1,6 @@
 "use client";
 
+import { ConsultFormHeader } from "@/components/ConsultFormHeader";
 import { PhoneField } from "@/components/PhoneField";
 import { phoneFromForm, submitEnquiry } from "@/lib/api";
 import { treatments } from "@/lib/data";
@@ -45,7 +46,7 @@ export function TreatmentConsult({ defaultSlug }: { defaultSlug: string }) {
 
   return (
     <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-xl sm:p-6">
-      <h3 className="text-center font-display text-xl font-bold text-navy">Book a Consultation Call</h3>
+      <ConsultFormHeader align="center" />
       {ok ? (
         <p className="mt-4 rounded-2xl bg-teal/10 p-4 text-sm font-medium text-navy">
           Thank you. A coordinator will call you shortly.
