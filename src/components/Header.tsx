@@ -2,13 +2,21 @@
 
 import { AppointmentModal } from "@/components/AppointmentModal";
 import { Logo } from "@/components/Logo";
-import { navTreatments, site, treatments } from "@/lib/data";
-import { fetchTreatmentsNav, type SiteSettings, type TreatmentNavItem } from "@/lib/api";
+import { navTreatments, site } from "@/lib/data";
+import {
+  fetchBlogs,
+  fetchTreatmentsNav,
+  type BlogListItem,
+  type SiteSettings,
+  type TreatmentNavItem,
+} from "@/lib/api";
 import { applyGoogleTranslate, langByCode, langs, readSavedLang, type Lang } from "@/lib/langs";
 import { ChevronDown, Clock, Menu, Minus, Phone, Plus, Search, Stethoscope, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
+
+type SearchHit = { href: string; title: string; kind: string };
 
 export function Header({ settings }: { settings?: SiteSettings | null }) {
   const path = usePathname();
@@ -21,6 +29,7 @@ export function Header({ settings }: { settings?: SiteSettings | null }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [q, setQ] = useState("");
   const [menuTreatments, setMenuTreatments] = useState<TreatmentNavItem[]>(navTreatments);
+  const [searchBlogs, setSearchBlogs] = useState<BlogListItem[]>([]);
   const langBox = useRef<HTMLDivElement>(null);
 
   const phone = settings?.phone || site.phone;
@@ -39,8 +48,10 @@ export function Header({ settings }: { settings?: SiteSettings | null }) {
 
   useEffect(() => {
     let cancelled = false;
-    fetchTreatmentsNav().then((items) => {
-      if (!cancelled && items.length > 0) setMenuTreatments(items);
+    Promise.all([fetchTreatmentsNav(), fetchBlogs(50)]).then(([treatments, blogs]) => {
+      if (cancelled) return;
+      if (treatments.length > 0) setMenuTreatments(treatments);
+      setSearchBlogs(blogs);
     });
     return () => {
       cancelled = true;
@@ -72,23 +83,45 @@ export function Header({ settings }: { settings?: SiteSettings | null }) {
 
   const results = useMemo(() => {
     const s = q.trim().toLowerCase();
-    if (s.length < 2) return [];
-    const pages = [
+    if (s.length < 2) return [] as SearchHit[];
+
+    const pages: SearchHit[] = [
       { href: "/", title: "Home", kind: "Pages" },
       { href: "/profile", title: "Profile — Dr. Rahul Bhargava", kind: "Pages" },
       { href: "/contact", title: "Contact", kind: "Pages" },
       { href: "/global-patient-services", title: "Global Patient Services", kind: "Pages" },
       { href: "/disclaimer", title: "Disclaimer", kind: "Pages" },
-      ...treatments.map((t) => ({ href: `/treatments/${t.slug}`, title: t.title, kind: "Treatments" })),
       { href: "/blogs", title: "Blogs", kind: "Pages" },
+      { href: "/treatments", title: "Treatments", kind: "Pages" },
+      { href: "/testimonials", title: "Testimonials", kind: "Pages" },
+      ...menuTreatments.map((t) => ({
+        href: `/treatments/${t.slug}`,
+        title: t.title,
+        kind: "Treatments",
+      })),
+      ...searchBlogs.map((b) => ({
+        href: `/blogs/${b.slug}`,
+        title: b.title,
+        kind: "Blogs",
+      })),
     ];
-    return pages.filter((p) => p.title.toLowerCase().includes(s)).slice(0, 8);
-  }, [q]);
+
+    return pages
+      .filter((p) => p.title.toLowerCase().includes(s) || p.href.toLowerCase().includes(s.replace(/\s+/g, "-")))
+      .slice(0, 10);
+  }, [q, menuTreatments, searchBlogs]);
 
   function goSearch(e: FormEvent) {
     e.preventDefault();
     if (results[0]) {
       router.push(results[0].href);
+      setSearchOpen(false);
+      setQ("");
+      return;
+    }
+    const term = q.trim();
+    if (term.length >= 2) {
+      router.push(`/blogs?q=${encodeURIComponent(term)}`);
       setSearchOpen(false);
       setQ("");
     }
@@ -321,25 +354,28 @@ export function Header({ settings }: { settings?: SiteSettings | null }) {
               </button>
             </form>
             <p className="mt-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">Treatments · Blogs · Pages</p>
-            {results.length > 0 && (
+            {q.trim().length >= 2 && results.length === 0 ? (
+              <p className="mt-3 text-sm text-slate-500">No matches found. Try another keyword.</p>
+            ) : null}
+            {results.length > 0 ? (
               <ul className="mt-3 divide-y divide-slate-100">
                 {results.map((r) => (
-                  <li key={r.href}>
+                  <li key={`${r.kind}-${r.href}`}>
                     <Link
                       href={r.href}
                       onClick={() => {
                         setSearchOpen(false);
                         setQ("");
                       }}
-                      className="flex items-center justify-between py-2.5 text-sm hover:text-teal"
+                      className="flex items-center justify-between gap-3 py-2.5 text-sm hover:text-teal"
                     >
-                      <span className="text-navy">{r.title}</span>
-                      <span className="text-[11px] font-semibold uppercase text-slate-400">{r.kind}</span>
+                      <span className="min-w-0 truncate text-navy">{r.title}</span>
+                      <span className="shrink-0 text-[11px] font-semibold uppercase text-slate-400">{r.kind}</span>
                     </Link>
                   </li>
                 ))}
               </ul>
-            )}
+            ) : null}
           </div>
         </div>
       )}

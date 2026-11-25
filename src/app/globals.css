@@ -173,9 +173,9 @@ input[type="button"] {
 }
 
 .field:focus {
-  border-color: #8bc34a;
+  border-color: #156f9f;
   background: #fff;
-  box-shadow: 0 0 0 4px rgba(139, 195, 74, 0.18);
+  box-shadow: 0 0 0 4px rgba(21, 111, 159, 0.18);
 }
 
 select.field {
